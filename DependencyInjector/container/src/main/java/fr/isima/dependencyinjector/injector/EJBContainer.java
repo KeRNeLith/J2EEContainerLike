@@ -163,7 +163,7 @@ public class EJBContainer
         }
     }
     
-    private <T> T instanciateType(Object instance, Field field, Class<T> targetClass)
+    private <T> T instanciateType(Object instance, Field field, Class<T> targetClass) throws NoConcreteClassFound, TooMuchPreferedClassFound, TooMuchConcreteClassFound
     {
         T instanciatedObject = null;
         
@@ -175,6 +175,9 @@ public class EJBContainer
             {
                 // If possible instanciate type
                 instanciatedObject = (T) defaultConstructor.newInstance();
+                
+                // Recursive injections
+                inject(instanciatedObject);
                 
                 setFieldValue(instance, field, instanciatedObject);
             }

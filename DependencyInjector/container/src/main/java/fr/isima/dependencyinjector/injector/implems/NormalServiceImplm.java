@@ -5,7 +5,9 @@
  */
 package fr.isima.dependencyinjector.injector.implems;
 
+import fr.isima.dependencyinjector.injector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.interfaces.INormalService;
+import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
 
 /**
  *
@@ -13,6 +15,9 @@ import fr.isima.dependencyinjector.injector.interfaces.INormalService;
  */
 public class NormalServiceImplm implements INormalService
 {
+    @Inject
+    public ISuperService superService;
+    
     @Override
     public String normalFoo() 
     {

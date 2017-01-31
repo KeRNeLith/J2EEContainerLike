@@ -15,6 +15,7 @@ import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.injector.implems.ConcreteCascadeService;
 import fr.isima.dependencyinjector.injector.interfaces.ICascadeService;
 import fr.isima.dependencyinjector.injector.implems.NormalServiceImplm;
+import fr.isima.dependencyinjector.injector.implems.PreferedSuperService;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,9 @@ public class CascadeInjectionTest
     @Inject
     private ICascadeService service;
     
+    //@Inject
+    //private ISeftInjectService selfService;
+    
     @Before
     public void setUp() throws TooMuchPreferedClassFound, NoConcreteClassFound, TooMuchConcreteClassFound 
     {
@@ -36,8 +40,6 @@ public class CascadeInjectionTest
     }
     
     // Tests
-    // TODO test injection de soit meme
-    
     @Test
     public void injectionDependencyCascade() 
     {
@@ -45,9 +47,31 @@ public class CascadeInjectionTest
         assertTrue(service instanceof ConcreteCascadeService);
         ConcreteCascadeService cascadeService = (ConcreteCascadeService) service;
         
+        // Recurse level 1
         assertNotNull(cascadeService.normalService);
         assertTrue(cascadeService.normalService instanceof NormalServiceImplm);
+        NormalServiceImplm normalService = (NormalServiceImplm) cascadeService.normalService;
+        
+        // Recurse level 2
+        assertNotNull(normalService.superService);
+        assertTrue(normalService.superService instanceof PreferedSuperService);
+        
+        // Work for n + 1 and n + 2 => so work for every n
         
         assertEquals("success", service.cascadeFoo());
     }
+    
+    // TODO test self inject 
+    /*@Test
+    public void injectionDependencySelfInject() 
+    {
+        assertNotNull(selfService);
+        assertTrue(selfService instanceof SelfInjectedServiceImplm);
+        SelfInjectedServiceImplm sService = (SelfInjectedServiceImplm) selfService;
+        
+        assertNotNull(sService.service);
+        assertTrue(sService.service instanceof SelfInjectedServiceImplm);
+
+        assertEquals("success", selfService.selfFoo());
+    }*/
 }
