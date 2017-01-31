@@ -33,9 +33,6 @@ public class InjectionSingletonTest
     @Before
     public void setUp() throws NoConcreteClassFound, TooMuchPreferedClassFound, TooMuchConcreteClassFound 
     {
-        // Enregistre les correspondances
-        EJBContainer.getInjector().registerType(IService.class, ServiceImplm.class);
-        
         // Injection
         EJBContainer.getInjector().inject(this);
     }

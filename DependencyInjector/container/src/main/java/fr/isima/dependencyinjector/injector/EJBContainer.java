@@ -10,8 +10,10 @@ import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferedClassFound;
 import fr.isima.dependencyinjector.injector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.annotations.Prefered;
+import fr.isima.dependencyinjector.injector.annotations.Singleton;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -44,12 +46,14 @@ import org.reflections.Reflections;
 public class EJBContainer 
 {
     private static EJBContainer instance;
-    // Map singleton ?
+    
+    private final Map<Class, Object> singletonInstances;
     private final Map<Class, Class> associatedTypes;
     
     private EJBContainer()
     {
-        associatedTypes = new HashMap<>();
+        singletonInstances = new HashMap();
+        associatedTypes = new HashMap();
     }
     
     public static EJBContainer getInjector()
@@ -60,11 +64,15 @@ public class EJBContainer
         return instance;
     }
     
+    // LEGACY code for hard coded tests
+    @Deprecated
     public void registerType(Class sourceType, Class typeToInject)
     {
         associatedTypes.put(sourceType, typeToInject);
     }
     
+    // LEGACY code for hard coded tests
+    @Deprecated
     public <T> Class<T> resolveType(Class<T> type)
     {
         return associatedTypes.get(type);
@@ -80,11 +88,13 @@ public class EJBContainer
             // If field require injection
             if (field.isAnnotationPresent(Inject.class))
             {
+                // Search the class that will be instanciate
                 Class targetClass = null;
                 Class fieldClass = field.getType();
                 
                 Reflections reflections = new Reflections("fr.isima");
                 Set< Class<?> > subTypes = reflections.getSubTypesOf(fieldClass);
+                
                 // No Implementations found
                 if (subTypes.size() <= 0)
                 {
@@ -125,32 +135,77 @@ public class EJBContainer
                     targetClass = (Class) it.next();
                 }
                 
-                // No type found to resolve injection
+                // If type found to resolve injection
                 if (targetClass != null)
                 {
-                    // Try getting default constructor
-                    try
+                    // Case of class that is annoted Singleton
+                    if (targetClass.isAnnotationPresent(Singleton.class))
                     {
-                        Constructor defaultConstructor = targetClass.getConstructor();
-                        if (defaultConstructor != null)
+                        // If singleton already instanciated
+                        if (singletonInstances.containsKey(targetClass))
                         {
-                            boolean accessible = field.isAccessible();
-                            if (!accessible)
-                            {
-                                field.setAccessible(true);
-                            }
-                            
-                            field.set(o, defaultConstructor.newInstance());
-                            
-                            field.setAccessible(accessible);
+                            setFieldValue(o, field, singletonInstances.get(targetClass));
                         }
-                    } 
-                    catch (Exception ex) 
+                        // No instance for singleton => instanciate it
+                        else
+                        {
+                            Object newInstance = instanciateType(o, field, targetClass);
+                            singletonInstances.put(targetClass, newInstance);
+                        }
+                    }
+                    // Normal case
+                    else
                     {
-                        Logger.getLogger(EJBContainer.class.getName()).log(Level.SEVERE, null, ex);
+                        instanciateType(o, field, targetClass);
                     }
                 }
             }
         }
+    }
+    
+    private <T> T instanciateType(Object instance, Field field, Class<T> targetClass)
+    {
+        T instanciatedObject = null;
+        
+        // Try getting default constructor
+        try
+        {
+            Constructor defaultConstructor = targetClass.getConstructor();
+            if (defaultConstructor != null)
+            {
+                // If possible instanciate type
+                instanciatedObject = (T) defaultConstructor.newInstance();
+                
+                setFieldValue(instance, field, instanciatedObject);
+            }
+        } 
+        catch ( IllegalAccessException | IllegalArgumentException 
+                | InstantiationException | NoSuchMethodException 
+                | SecurityException | InvocationTargetException ex) 
+        {
+            Logger.getLogger(EJBContainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return instanciatedObject;
+    }
+    
+    private <T> void setFieldValue(Object instance, Field field, T value)
+    {
+        boolean accessible = field.isAccessible();
+        if (!accessible)
+        {
+            field.setAccessible(true);
+        }
+
+        try 
+        {
+            field.set(instance, value);
+        } 
+        catch (IllegalArgumentException | IllegalAccessException ex) 
+        {
+            Logger.getLogger(EJBContainer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        field.setAccessible(accessible);
     }
 }
