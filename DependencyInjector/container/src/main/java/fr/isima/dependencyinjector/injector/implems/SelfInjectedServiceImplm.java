@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector.interfaces;
+package fr.isima.dependencyinjector.injector.implems;
 
 import fr.isima.dependencyinjector.injector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.annotations.Singleton;
+import fr.isima.dependencyinjector.injector.interfaces.ISeftInjectService;
 
 /**
  *

@@ -16,7 +16,13 @@ public class ConcreteLoggedService implements ILoggedService
 {
     @Override
     @Log    // Toujours au niveau de l'implementation !
-    public void method() 
+    public void method1() 
+    {
+        // Do something
+    }
+    
+    @Override
+    public void method2() 
     {
         // Do something
     }

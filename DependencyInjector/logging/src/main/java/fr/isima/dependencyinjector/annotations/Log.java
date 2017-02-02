@@ -8,12 +8,15 @@ package fr.isima.dependencyinjector.annotations;
 import fr.isima.dependencyinjector.injector.annotations.Behaviour;
 import fr.isima.dependencyinjector.logging.LogInterceptor;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
  *
  * @author alraberin1
  */
+@Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 @Behaviour(interceptor = LogInterceptor.class)
 public @interface Log 

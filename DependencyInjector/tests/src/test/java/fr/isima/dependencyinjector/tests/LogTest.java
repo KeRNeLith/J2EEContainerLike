@@ -39,12 +39,22 @@ public class LogTest
     
     // Tests
     @Test
-    public void logging() 
+    public void loggedMethod() 
     {
         assertNotNull(service);
         assertNotNull(logger);
         
-        service.method();
-        assertTrue(logger.contains("method"));
+        service.method1();
+        assertTrue(logger.contains("method1"));
+    }
+    
+    @Test
+    public void notLoggedMethod() 
+    {
+        assertNotNull(service);
+        assertNotNull(logger);
+        
+        service.method2();
+        assertFalse(logger.contains("method2"));
     }
 }

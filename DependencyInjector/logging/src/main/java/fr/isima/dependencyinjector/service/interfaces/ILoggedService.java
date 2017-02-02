@@ -11,5 +11,7 @@ package fr.isima.dependencyinjector.service.interfaces;
  */
 public interface ILoggedService 
 {
-    void method();
+    void method1();
+    
+    void method2();
 }
