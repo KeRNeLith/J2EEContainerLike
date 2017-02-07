@@ -11,5 +11,7 @@ package fr.isima.dependencyinjector.entitymanager;
  */
 public interface IEntityManager 
 {
-    void execQuery(String query);
+    void execSuccessQuery();
+
+    void execFailedQuery();
 }

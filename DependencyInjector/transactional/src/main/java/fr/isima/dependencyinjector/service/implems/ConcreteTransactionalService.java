@@ -5,58 +5,26 @@
  */
 package fr.isima.dependencyinjector.service.implems;
 
-import fr.isima.dependencyinjector.injector.annotations.Inject;
 import fr.isima.dependencyinjector.annotations.Transactional;
 import static fr.isima.dependencyinjector.annotations.Transactional.TransactionType.REQUIRE;
-import fr.isima.dependencyinjector.entitymanager.IEntityManager;
-import fr.isima.dependencyinjector.service.interfaces.ITransactionalService;
+import fr.isima.dependencyinjector.service.interfaces.IRequireTransactionalService;
 
 /**
  *
  * @author alraberin1
  */
-public class ConcreteTransactionalService implements ITransactionalService
+public class ConcreteTransactionalService implements IRequireTransactionalService
 {
-    @Inject
-    private IEntityManager em;
-    
     @Override
     @Transactional(type = REQUIRE)
-    public void method()
+    public void methodSucceed()
     {
-        em.execQuery("SELECT * FROM NoWhere");
     }
-    
-    /*class Service
-    {
-        @Inject
-        Service2 s2;
-        
-        @Transactional(REQUIRE)
-        void m()
-        {
-            s2.m2();
-        }
-    }
-    
-    class Service2
-    {
-        @Transactional(REQUIRE_NEW)
-        void m2()
-        {
-            
-        }
-    }
-    
-    class Tester
-    {
-        @Inject
-        Service service;
 
-        @Test
-        void test()
-        {
-            service.m();
-        }
-    }   */
+    @Override
+    @Transactional(type = REQUIRE)
+    public void methodFailed()
+    {
+        throw new RuntimeException("Impossible to finish execution of transactional method");
+    }
 }

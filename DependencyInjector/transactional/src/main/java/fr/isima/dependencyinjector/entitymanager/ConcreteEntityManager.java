@@ -5,6 +5,10 @@
  */
 package fr.isima.dependencyinjector.entitymanager;
 
+import fr.isima.dependencyinjector.annotations.Transactional;
+
+import static fr.isima.dependencyinjector.annotations.Transactional.TransactionType.REQUIRE_NEW;
+
 /**
  *
  * @author alraberin1
@@ -12,8 +16,17 @@ package fr.isima.dependencyinjector.entitymanager;
 public class ConcreteEntityManager implements IEntityManager 
 {
     @Override
-    public void execQuery(String query) 
+    @Transactional(type = REQUIRE_NEW)
+    public void execSuccessQuery()
     {
-        System.out.println("Exec query: " + query);
+        System.out.println("Exec good query");
+    }
+
+    @Override
+    @Transactional(type = REQUIRE_NEW)
+    public void execFailedQuery()
+    {
+        System.out.println("Exec bad query");
+        throw new RuntimeException("Fail to exec query");
     }
 }

@@ -9,7 +9,9 @@ package fr.isima.dependencyinjector.service.interfaces;
  *
  * @author alraberin1
  */
-public interface ITransactionalService 
+public interface IRequireTransactionalService
 {
-    void method();
+    void methodSucceed();
+
+    void methodFailed();
 }

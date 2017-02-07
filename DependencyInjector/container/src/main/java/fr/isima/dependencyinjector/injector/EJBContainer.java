@@ -280,13 +280,13 @@ public final class EJBContainer
                     Logger.getLogger(EJBContainer.class.getName()).log(Level.SEVERE, "Cannot set interceptor of type {0}", interceptorClass.getName());
                 }
             }
-            // Classic instanciation with default constructor
+            // Classic instantiation with default constructor
             else
             {
                 Constructor defaultConstructor = targetClass.getConstructor();
                 if (defaultConstructor != null)
                 {
-                    // If possible instanciate type
+                    // If possible instantiate type
                     instanciatedObject = (T) defaultConstructor.newInstance();
                 }
             }
