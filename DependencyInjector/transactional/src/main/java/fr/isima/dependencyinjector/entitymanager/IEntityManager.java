@@ -7,7 +7,7 @@ package fr.isima.dependencyinjector.entitymanager;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public interface IEntityManager 
 {

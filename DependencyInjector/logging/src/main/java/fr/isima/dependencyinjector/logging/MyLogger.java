@@ -5,7 +5,7 @@
  */
 package fr.isima.dependencyinjector.logging;
 
-import fr.isima.dependencyinjector.injector.annotations.Prefered;
+import fr.isima.dependencyinjector.injector.annotations.Preferred;
 import fr.isima.dependencyinjector.injector.annotations.Singleton;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author kernelith
  */
-@Prefered
+@Preferred
 @Singleton
 public class MyLogger implements ILogger
 {

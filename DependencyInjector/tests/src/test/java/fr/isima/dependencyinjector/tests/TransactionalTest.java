@@ -9,7 +9,7 @@ package fr.isima.dependencyinjector.tests;
 
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferedClassFound;
+import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.service.interfaces.IRequireNewTransactionalService;
@@ -36,7 +36,7 @@ public class TransactionalTest
     private IRequireNewTransactionalService requireNewService;
     
     @Before
-    public void setUp() throws TooMuchPreferedClassFound, NoConcreteClassFound, TooMuchConcreteClassFound 
+    public void setUp() throws TooMuchPreferredClassFound, NoConcreteClassFound, TooMuchConcreteClassFound
     {
         // Injection
         EJBContainer.getInjector().inject(this);

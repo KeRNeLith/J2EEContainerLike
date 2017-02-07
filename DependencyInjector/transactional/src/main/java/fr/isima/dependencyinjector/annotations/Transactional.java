@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 @Target(ElementType.METHOD)
 @Behaviour(interceptor = TransactionInterceptor.class)

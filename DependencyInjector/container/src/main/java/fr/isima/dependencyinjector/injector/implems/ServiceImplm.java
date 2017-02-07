@@ -10,7 +10,7 @@ import fr.isima.dependencyinjector.injector.interfaces.IService;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 @Singleton
 public class ServiceImplm implements IService

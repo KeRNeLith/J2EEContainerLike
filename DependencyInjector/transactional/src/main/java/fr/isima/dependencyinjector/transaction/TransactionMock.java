@@ -5,13 +5,13 @@
  */
 package fr.isima.dependencyinjector.transaction;
 
-import fr.isima.dependencyinjector.injector.annotations.Prefered;
+import fr.isima.dependencyinjector.injector.annotations.Preferred;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
-@Prefered
+@Preferred
 public class TransactionMock implements ITransaction
 {
     private static int nbBegins = 0;

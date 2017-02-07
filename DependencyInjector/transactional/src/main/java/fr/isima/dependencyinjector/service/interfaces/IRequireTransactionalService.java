@@ -7,7 +7,7 @@ package fr.isima.dependencyinjector.service.interfaces;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public interface IRequireTransactionalService
 {

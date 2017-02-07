@@ -5,19 +5,15 @@
  */
 package fr.isima.dependencyinjector.injector;
 
-import fr.isima.dependencyinjector.annotations.Log;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferedClassFound;
-import fr.isima.dependencyinjector.injector.annotations.Behaviour;
+import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.annotations.Inject;
-import fr.isima.dependencyinjector.injector.annotations.Prefered;
+import fr.isima.dependencyinjector.injector.annotations.Preferred;
 import fr.isima.dependencyinjector.injector.annotations.Singleton;
 import fr.isima.dependencyinjector.injector.interceptor.IInterceptor;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+
+import java.lang.reflect.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,10 +22,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javassist.util.proxy.MethodFilter;
-import javassist.util.proxy.MethodHandler;
-import javassist.util.proxy.ProxyFactory;
-import org.reflections.ReflectionUtils;
+
 import org.reflections.Reflections;
 
 // TODO list
@@ -57,12 +50,12 @@ public final class EJBContainer
      * Map of all singleton instances instantiated.
      */
     private final Map<Class, Object> singletonInstances;
-    
+
     /**
      * Map of all interceptors.
      */
     private final Map<Class, IInterceptor> interceptors;
-    
+
     /**
      * Tool to use reflection.
      */
@@ -81,7 +74,7 @@ public final class EJBContainer
         
         reflectionHelper = new Reflections("");
         
-        // Instanciate all interceptors that are usable
+        // Instantiate all interceptors that are usable
         Set< Class<? extends IInterceptor> > interceptorsClasses = reflectionHelper.getSubTypesOf(IInterceptor.class);
         for (Class<? extends IInterceptor> interceptorClass : interceptorsClasses)
         {
@@ -93,18 +86,28 @@ public final class EJBContainer
                     inject(interceptor);
                     interceptors.put(interceptorClass, interceptor);
                 } 
-                catch ( NoConcreteClassFound 
-                        | TooMuchPreferedClassFound 
+                catch ( TooMuchPreferredClassFound
                         | TooMuchConcreteClassFound ex) 
                 {
                     // Problem impossible to inject interceptors dependencies
-                    Logger.getLogger(EJBContainer.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
+                                                                        "Container could not determine type while performing injection for " + interceptor.getClass().getName(),
+                                                                        ex);
+                }
+                catch (NoConcreteClassFound ex)
+                {
+                    // Problem impossible to inject interceptors dependencies
+                    Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
+                            "Container could not find type to use while performing injection for " + interceptorClass.getName(),
+                            ex);
                 }
             } 
             catch (InstantiationException | IllegalAccessException ex) 
             {
-                // Problem impossible to instanciate interceptors
-                Logger.getLogger(EJBContainer.class.getName()).log(Level.SEVERE, null, ex);
+                // Problem impossible to instantiate interceptors
+                Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
+                                                                    "Impossible to instantiate interceptor of type " + interceptorClass.getName(),
+                                                                    ex);
             }
         }
         
@@ -141,10 +144,10 @@ public final class EJBContainer
      * Handle mechanism of dependancy injection on the given object.
      * @param o Object that will have dependency injections.
      * @throws NoConcreteClassFound No concrete class found while trying to perform injection.
-     * @throws TooMuchPreferedClassFound Too much prefered class found while trying to perform injection.
+     * @throws TooMuchPreferredClassFound Too much prefered class found while trying to perform injection.
      * @throws TooMuchConcreteClassFound Too much concrete class found while trying to perform injection.
      */
-    public void inject(Object o) throws NoConcreteClassFound, TooMuchPreferedClassFound, TooMuchConcreteClassFound
+    public void inject(Object o) throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
     {
         Class objectClass = o.getClass();
         
@@ -154,11 +157,11 @@ public final class EJBContainer
             // If field require injection
             if (field.isAnnotationPresent(Inject.class))
             {
-                // Search the class that will be instanciate
+                // Search the class that will be instantiate
                 Class targetClass = null;
                 Class fieldClass = field.getType();
                 
-                Set< Class<?> > subTypes = reflectionHelper.getSubTypesOf(fieldClass);
+                Set<Class> subTypes = reflectionHelper.getSubTypesOf(fieldClass);
                 
                 // No Implementations found
                 if (subTypes.size() <= 0)
@@ -168,24 +171,24 @@ public final class EJBContainer
                 // More than one possibility
                 else if (subTypes.size() > 1)
                 {
-                    List<Class> preferedClass = new ArrayList();
-                    for (Class<?> c : subTypes)
+                    List<Class> preferredClass = new ArrayList();
+                    for (Class c : subTypes)
                     {
-                        if (c.isAnnotationPresent(Prefered.class))
+                        if (c.isAnnotationPresent(Preferred.class))
                         {
-                            preferedClass.add(c);
+                            preferredClass.add(c);
                         }
                     }
                     
                     // More than one prefered class
-                    if (preferedClass.size() > 1)
+                    if (preferredClass.size() > 1)
                     {
-                        throw new TooMuchPreferedClassFound();
+                        throw new TooMuchPreferredClassFound();
                     }
                     // One prefered class
-                    else if (preferedClass.size() == 1)
+                    else if (preferredClass.size() == 1)
                     {
-                        targetClass = preferedClass.get(0);
+                        targetClass = preferredClass.get(0);
                     }
                     // No Prefered class but too much class found
                     else
@@ -214,14 +217,14 @@ public final class EJBContainer
                         // No instance for singleton => instanciate it
                         else
                         {
-                            Object newInstance = instanciateType(o, field, targetClass);
+                            Object newInstance = instantiateType(o, field, fieldClass, targetClass);
                             singletonInstances.put(targetClass, newInstance);
                         }
                     }
                     // Normal case
                     else
                     {
-                        instanciateType(o, field, targetClass);
+                        instantiateType(o, field, fieldClass, targetClass);
                     }
                 }
             }
@@ -230,80 +233,34 @@ public final class EJBContainer
     
     /**
      * Instanciate an object for the given field of given type.
-     * @param <T> Type of instanciated object.
      * @param instance Instance on which setting value.
      * @param field Field concerned for instanciation.
      * @param targetClass Target class to instanciate.
-     * @return Instanciated object.
+     * @return Instantiated object.
      */
-    private <T> T instanciateType(Object instance, Field field, Class<T> targetClass) throws NoConcreteClassFound, TooMuchPreferedClassFound, TooMuchConcreteClassFound
+    private Object instantiateType(Object instance, Field field, Class interfaceClass, Class targetClass) throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
     {
-        T instanciatedObject = null;
-        
-        // Try getting default constructor
+        Object instantiatedProxy = null;
         try
         {
-            // Class has methods annoted with @Log
-            Set<Method> logMethods = ReflectionUtils.getAllMethods(targetClass, ReflectionUtils.withAnnotation(Log.class));
-            
-            // If there is at least one method annoted => require proxy handling
-            if (logMethods.size() > 0)
-            {
-                // Create proxy factory
-                ProxyFactory factory = new ProxyFactory();
-                factory.setSuperclass(targetClass);
-                // Filter only annoted methods
-                factory.setFilter(new MethodFilter() {
-                    @Override
-                    public boolean isHandled(Method m) 
-                    {
-                        return m.isAnnotationPresent(Log.class);
-                    }
-                });
-                
-                // Get interceptor to use
-                Behaviour behaviourAnnotation = Log.class.getAnnotation(Behaviour.class);
-                Class<? extends IInterceptor> interceptorClass = behaviourAnnotation.interceptor();
-                
-                // Interceptor class found
-                if (interceptors.containsKey(interceptorClass))
-                {
-                    IInterceptor interceptor = interceptors.get(interceptorClass);
-                    ContainerMethodHandler containerMethodHandler = new ContainerMethodHandler(interceptor);
-                    
-                    // Create proxy with default constructor
-                    instanciatedObject = (T) factory.create(new Class<?>[0], new Object[0], containerMethodHandler);
-                }
-                // Else cannot set interceptor...
-                else
-                {
-                    Logger.getLogger(EJBContainer.class.getName()).log(Level.SEVERE, "Cannot set interceptor of type {0}", interceptorClass.getName());
-                }
-            }
-            // Classic instantiation with default constructor
-            else
-            {
-                Constructor defaultConstructor = targetClass.getConstructor();
-                if (defaultConstructor != null)
-                {
-                    // If possible instantiate type
-                    instanciatedObject = (T) defaultConstructor.newInstance();
-                }
-            }
-            
-            // Recursive injections
-            inject(instanciatedObject);
+            Object instantiatedObject = targetClass.newInstance();
+            instantiatedProxy = Proxy.newProxyInstance( targetClass.getClassLoader(),
+                                                        new Class[] { interfaceClass },
+                                                        new ContainerInvocationHandler(instantiatedObject));
 
-            setFieldValue(instance, field, instanciatedObject);
-        } 
-        catch ( IllegalAccessException | IllegalArgumentException 
-                | InstantiationException | NoSuchMethodException 
-                | SecurityException | InvocationTargetException ex) 
+            // Recursive injections
+            inject(instantiatedObject);
+
+            setFieldValue(instance, field, instantiatedProxy);
+        }
+        catch (InstantiationException | IllegalAccessException e)
         {
-            Logger.getLogger(EJBContainer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
+                                                                "Impossible to instantiate type " + targetClass.getName() + " for field " + field.getName() + " for object of type " + instance.getClass().getName(),
+                                                                e);
         }
         
-        return instanciatedObject;
+        return instantiatedProxy;
     }
     
     /**
@@ -327,7 +284,9 @@ public final class EJBContainer
         } 
         catch (IllegalArgumentException | IllegalAccessException ex) 
         {
-            Logger.getLogger(EJBContainer.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
+                                                                "Impossible to set field value of field " + field.getName() + " for object of type " + instance.getClass().getName(),
+                                                                ex);
         }
 
         field.setAccessible(accessible);

@@ -9,7 +9,7 @@ import fr.isima.dependencyinjector.injector.interfaces.IHugeService;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class AlternativeHugeService implements IHugeService
 {

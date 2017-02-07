@@ -11,7 +11,7 @@ import static fr.isima.dependencyinjector.annotations.Transactional.TransactionT
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class ConcreteEntityManager implements IEntityManager 
 {

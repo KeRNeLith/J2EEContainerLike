@@ -10,7 +10,7 @@ package fr.isima.dependencyinjector.tests;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.injector.annotations.Inject;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferedClassFound;
+import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.injector.interfaces.IHugeService;
 import static org.junit.Assert.*;
@@ -20,14 +20,14 @@ import org.junit.Test;
  *
  * @author kernelith
  */
-public class TooMuchPreferedInjectionTest 
+public class TooMuchPreferredInjectionTest
 {
     @Inject
     private IHugeService service;         // 2 Implems
     
     // Tests
-    @Test(expected = TooMuchPreferedClassFound.class)
-    public void injectionDependencyTooMuchPrefered() throws TooMuchPreferedClassFound, NoConcreteClassFound, TooMuchConcreteClassFound 
+    @Test(expected = TooMuchPreferredClassFound.class)
+    public void injectionDependencyTooMuchPreferred() throws TooMuchPreferredClassFound, NoConcreteClassFound, TooMuchConcreteClassFound
     {
         assertNull(service);
         

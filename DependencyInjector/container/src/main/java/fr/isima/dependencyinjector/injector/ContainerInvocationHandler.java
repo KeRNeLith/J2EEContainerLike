@@ -16,26 +16,39 @@ import java.lang.reflect.Method;
  */
 public class ContainerInvocationHandler implements InvocationHandler
 {
-    private IInterceptor interceptor;
-    
+    private Object m_object;
+
+    //private IInterceptor interceptor;
+
+    public ContainerInvocationHandler(Object object)
+    {
+        m_object = object;
+    }
+
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable 
     {
         Object ret = null;
-        
-        try
+
+        // Find annotations annoted behaviour
+        //try
         {
-            interceptor.before(proxy, method, args);
+            //interceptor.before(proxy, method, args);
 
-            ret = method.invoke(proxy, args);
+            ret = method.invoke(m_object, args);
 
-            interceptor.after(proxy, method, args);
+            //interceptor.after(proxy, method, args);
         }
-        finally
+        //finally
         {
-            interceptor.onError(proxy, method, args);
+            //interceptor.onError(proxy, method, args);
         }
         
         return ret;
+    }
+
+    public Object getObject()
+    {
+        return m_object;
     }
 }

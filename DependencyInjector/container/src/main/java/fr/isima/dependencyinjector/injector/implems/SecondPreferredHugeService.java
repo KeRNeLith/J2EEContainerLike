@@ -5,19 +5,19 @@
  */
 package fr.isima.dependencyinjector.injector.implems;
 
-import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
-import fr.isima.dependencyinjector.injector.annotations.Prefered;
+import fr.isima.dependencyinjector.injector.interfaces.IHugeService;
+import fr.isima.dependencyinjector.injector.annotations.Preferred;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
-@Prefered
-public class PreferedSuperService implements ISuperService
+@Preferred
+public class SecondPreferredHugeService implements IHugeService
 {
     @Override
-    public String superFoo() 
+    public String hugeFoo() 
     {
         return "success";
-    }    
+    }
 }

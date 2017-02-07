@@ -11,7 +11,7 @@ import fr.isima.dependencyinjector.service.interfaces.IRequireTransactionalServi
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class ConcreteTransactionalService implements IRequireTransactionalService
 {

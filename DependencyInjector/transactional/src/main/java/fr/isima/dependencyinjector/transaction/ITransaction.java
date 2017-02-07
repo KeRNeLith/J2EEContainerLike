@@ -7,7 +7,7 @@ package fr.isima.dependencyinjector.transaction;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public interface ITransaction
 {

@@ -9,16 +9,20 @@ package fr.isima.dependencyinjector.tests;
 
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferedClassFound;
+import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
+import fr.isima.dependencyinjector.injector.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.injector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.injector.implems.ConcreteCascadeService;
 import fr.isima.dependencyinjector.injector.interfaces.ICascadeService;
 import fr.isima.dependencyinjector.injector.implems.NormalServiceImplm;
-import fr.isima.dependencyinjector.injector.implems.PreferedSuperService;
+import fr.isima.dependencyinjector.injector.implems.PreferredSuperService;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 
 /**
  *
@@ -33,7 +37,7 @@ public class CascadeInjectionTest
     //private ISeftInjectService selfService;
     
     @Before
-    public void setUp() throws TooMuchPreferedClassFound, NoConcreteClassFound, TooMuchConcreteClassFound 
+    public void setUp() throws TooMuchPreferredClassFound, NoConcreteClassFound, TooMuchConcreteClassFound
     {
         // Injection
         EJBContainer.getInjector().inject(this);
@@ -44,21 +48,41 @@ public class CascadeInjectionTest
     public void injectionDependencyCascade() 
     {
         assertNotNull(service);
-        assertTrue(service instanceof ConcreteCascadeService);
-        ConcreteCascadeService cascadeService = (ConcreteCascadeService) service;
+        assertTrue(Proxy.isProxyClass(service.getClass()));
+
+        // Check Implementation type behind proxy class
+        InvocationHandler handler = Proxy.getInvocationHandler(service);
+        assertTrue(handler instanceof ContainerInvocationHandler);
+        ContainerInvocationHandler containerHandler = (ContainerInvocationHandler) handler;
+        assertTrue(containerHandler.getObject() instanceof ConcreteCascadeService);
+
+        ConcreteCascadeService cascadeService = (ConcreteCascadeService) containerHandler.getObject();
         
         // Recurse level 1
         assertNotNull(cascadeService.normalService);
-        assertTrue(cascadeService.normalService instanceof NormalServiceImplm);
-        NormalServiceImplm normalService = (NormalServiceImplm) cascadeService.normalService;
+        assertTrue(Proxy.isProxyClass(cascadeService.normalService.getClass()));
+
+        // Check Implementation type behind proxy class
+        InvocationHandler handler2 = Proxy.getInvocationHandler(cascadeService.normalService);
+        assertTrue(handler2 instanceof ContainerInvocationHandler);
+        ContainerInvocationHandler containerHandler2 = (ContainerInvocationHandler) handler2;
+        assertTrue(containerHandler2.getObject() instanceof NormalServiceImplm);
+
+        NormalServiceImplm normalService = (NormalServiceImplm) containerHandler2.getObject();
         
         // Recurse level 2
         assertNotNull(normalService.superService);
-        assertTrue(normalService.superService instanceof PreferedSuperService);
+        assertTrue(Proxy.isProxyClass(normalService.superService.getClass()));
+
+        // Check Implementation type behind proxy class
+        InvocationHandler handler3 = Proxy.getInvocationHandler(normalService.superService);
+        assertTrue(handler3 instanceof ContainerInvocationHandler);
+        ContainerInvocationHandler containerHandler3 = (ContainerInvocationHandler) handler3;
+        assertTrue(containerHandler3.getObject() instanceof PreferredSuperService);
         
         // Work for n + 1 and n + 2 => so work for every n
         
-        assertEquals("success", service.cascadeFoo());
+        assertEquals("success success success", service.cascadeFoo());
     }
     
     // TODO test self inject 

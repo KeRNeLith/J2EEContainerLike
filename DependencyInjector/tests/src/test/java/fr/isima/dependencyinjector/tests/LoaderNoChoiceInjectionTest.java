@@ -10,7 +10,7 @@ package fr.isima.dependencyinjector.tests;
 import fr.isima.dependencyinjector.injector.annotations.Inject;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferedClassFound;
+import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.injector.interfaces.INotImplementedService;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class LoaderNoChoiceInjectionTest
     
     // Tests
     @Test(expected = NoConcreteClassFound.class)
-    public void injectionDependencyLoaderNoChoice() throws NoConcreteClassFound, TooMuchPreferedClassFound, TooMuchConcreteClassFound 
+    public void injectionDependencyLoaderNoChoice() throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
     {
         assertNull(service);
         

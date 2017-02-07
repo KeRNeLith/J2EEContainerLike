@@ -9,7 +9,7 @@ import fr.isima.dependencyinjector.injector.interfaces.IBigService;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class BigServiceImplem1 implements IBigService
 {

@@ -9,13 +9,18 @@ package fr.isima.dependencyinjector.tests;
 
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferedClassFound;
+import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
+import fr.isima.dependencyinjector.injector.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.injector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.injector.interfaces.IService;
 import fr.isima.dependencyinjector.injector.implems.ServiceImplm;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
+
 import static org.junit.Assert.*;
 
 /**
@@ -28,7 +33,7 @@ public class HardCodedInjectionTest
     private IService service;
     
     @Before
-    public void setUp() throws NoConcreteClassFound, TooMuchPreferedClassFound, TooMuchConcreteClassFound 
+    public void setUp() throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
     {
         // Enregistre les correspondances
         EJBContainer.getInjector().registerType(IService.class, ServiceImplm.class);
@@ -49,7 +54,14 @@ public class HardCodedInjectionTest
     public void injectionDependency2() 
     {
         assertNotNull(service);
-        assertTrue(service instanceof ServiceImplm);
+        assertTrue(Proxy.isProxyClass(service.getClass()));
+
+        // Check Implementation type behind proxy class
+        InvocationHandler handler = Proxy.getInvocationHandler(service);
+        assertTrue(handler instanceof ContainerInvocationHandler);
+        ContainerInvocationHandler containerHandler = (ContainerInvocationHandler) handler;
+        assertTrue(containerHandler.getObject() instanceof ServiceImplm);
+
         assertEquals("success", service.foo());
     }
 }

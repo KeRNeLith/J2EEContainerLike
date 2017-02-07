@@ -8,7 +8,7 @@ package fr.isima.dependencyinjector.exceptions;
  *
  * @author kernelith
  */
-public class TooMuchPreferedClassFound extends Exception
+public class TooMuchPreferredClassFound extends Exception
 {
     
 }

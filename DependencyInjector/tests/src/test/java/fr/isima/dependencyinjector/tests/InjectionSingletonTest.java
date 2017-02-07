@@ -9,11 +9,10 @@ package fr.isima.dependencyinjector.tests;
 
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferedClassFound;
+import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.injector.interfaces.IService;
-import fr.isima.dependencyinjector.injector.implems.ServiceImplm;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -31,7 +30,7 @@ public class InjectionSingletonTest
     private IService otherService;
     
     @Before
-    public void setUp() throws NoConcreteClassFound, TooMuchPreferedClassFound, TooMuchConcreteClassFound 
+    public void setUp() throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
     {
         // Injection
         EJBContainer.getInjector().inject(this);
@@ -42,9 +41,6 @@ public class InjectionSingletonTest
     {
         assertNotNull(service);
         assertNotNull(otherService);
-        
-        assertTrue(service instanceof ServiceImplm);
-        assertTrue(otherService instanceof ServiceImplm);
         
         assertEquals("success", service.foo());
         assertEquals("success", otherService.foo());

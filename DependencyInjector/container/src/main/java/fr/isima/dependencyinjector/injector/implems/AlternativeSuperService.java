@@ -9,7 +9,7 @@ import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class AlternativeSuperService implements ISuperService
 {

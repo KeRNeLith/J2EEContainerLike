@@ -11,7 +11,7 @@ import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class NormalServiceImplm implements INormalService
 {
@@ -22,5 +22,11 @@ public class NormalServiceImplm implements INormalService
     public String normalFoo() 
     {
         return "success";
+    }
+
+    @Override
+    public String cascadeFoo()
+    {
+        return "success " + superService.superFoo();
     }
 }

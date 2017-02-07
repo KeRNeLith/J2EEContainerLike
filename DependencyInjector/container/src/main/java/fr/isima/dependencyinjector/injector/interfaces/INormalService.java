@@ -7,9 +7,11 @@ package fr.isima.dependencyinjector.injector.interfaces;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public interface INormalService 
 {
     String normalFoo();
+
+    String cascadeFoo();
 }

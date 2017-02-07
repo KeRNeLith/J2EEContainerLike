@@ -11,7 +11,7 @@ import fr.isima.dependencyinjector.injector.annotations.Inject;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class ConcreteCascadeService implements ICascadeService
 {
@@ -21,6 +21,6 @@ public class ConcreteCascadeService implements ICascadeService
     @Override
     public String cascadeFoo() 
     {
-        return "success";
+        return "success " + normalService.cascadeFoo();
     }
 }
