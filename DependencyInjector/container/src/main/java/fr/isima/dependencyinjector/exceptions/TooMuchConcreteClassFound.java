@@ -7,7 +7,7 @@ package fr.isima.dependencyinjector.exceptions;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class TooMuchConcreteClassFound extends Exception
 {

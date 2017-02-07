@@ -10,7 +10,7 @@ import fr.isima.dependencyinjector.service.interfaces.ILoggedService;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class ConcreteLoggedService implements ILoggedService
 {

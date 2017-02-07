@@ -44,7 +44,7 @@ import org.reflections.Reflections;
 
 /**
  * Handle the mechanism of dependency injection.
- * @author alraberin1
+ * @author kernelith
  */
 public final class EJBContainer 
 {
@@ -54,7 +54,7 @@ public final class EJBContainer
     private static EJBContainer instance;
     
     /**
-     * Map of all singleton instances instaciated.
+     * Map of all singleton instances instantiated.
      */
     private final Map<Class, Object> singletonInstances;
     

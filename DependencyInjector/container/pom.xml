@@ -24,6 +24,7 @@
             <artifactId>DependencyInjectorCommon</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <!-- Should not depends on those projects -->
         <dependency>
             <groupId>fr.isima</groupId>
             <artifactId>DependencyInjectorLogging</artifactId>

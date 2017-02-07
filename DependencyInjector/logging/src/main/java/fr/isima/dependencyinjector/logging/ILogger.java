@@ -7,7 +7,7 @@ package fr.isima.dependencyinjector.logging;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public interface ILogger 
 {

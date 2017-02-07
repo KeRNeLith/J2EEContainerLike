@@ -18,7 +18,7 @@ import org.junit.Test;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class TooMuchPreferedInjectionTest 
 {

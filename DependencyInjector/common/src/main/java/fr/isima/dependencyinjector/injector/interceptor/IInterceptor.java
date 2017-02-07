@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public interface IInterceptor 
 {

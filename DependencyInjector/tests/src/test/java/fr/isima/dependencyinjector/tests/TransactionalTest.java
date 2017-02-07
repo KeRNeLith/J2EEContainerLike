@@ -22,7 +22,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author alraberin1
+ * @author kernelith
  */
 public class TransactionalTest 
 {
