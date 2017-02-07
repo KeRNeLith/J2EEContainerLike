@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector.annotations;
+package fr.isima.dependencyinjector.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,8 +15,8 @@ import java.lang.annotation.Target;
  * @author kernelith
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.FIELD)
-public @interface Inject 
+@Target(ElementType.TYPE)
+public @interface Singleton 
 {
     
 }

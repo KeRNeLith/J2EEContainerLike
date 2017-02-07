@@ -8,7 +8,7 @@ package fr.isima.dependencyinjector.tests;
 
 
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
-import fr.isima.dependencyinjector.injector.annotations.Inject;
+import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.EJBContainer;

@@ -5,8 +5,9 @@
  */
 package fr.isima.dependencyinjector.transaction;
 
-import fr.isima.dependencyinjector.injector.annotations.Inject;
-import fr.isima.dependencyinjector.injector.interceptor.IInterceptor;
+import fr.isima.dependencyinjector.annotations.Inject;
+import fr.isima.dependencyinjector.interceptor.IInterceptor;
+
 import java.lang.reflect.Method;
 
 /**

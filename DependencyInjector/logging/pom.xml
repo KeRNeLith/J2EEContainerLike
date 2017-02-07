@@ -16,7 +16,7 @@
     <dependencies>
         <dependency>
             <groupId>fr.isima</groupId>
-            <artifactId>DependencyInjectorCommon</artifactId>
+            <artifactId>DependencyInjectorContainer</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>

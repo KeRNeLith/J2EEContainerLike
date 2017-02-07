@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector.annotations;
+package fr.isima.dependencyinjector.annotations;
 
+import fr.isima.dependencyinjector.interceptor.IInterceptor;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,8 +16,8 @@ import java.lang.annotation.Target;
  * @author kernelith
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Preferred
+@Target(ElementType.ANNOTATION_TYPE)
+public @interface Behaviour 
 {
-    
+    Class<? extends IInterceptor> interceptor();
 }

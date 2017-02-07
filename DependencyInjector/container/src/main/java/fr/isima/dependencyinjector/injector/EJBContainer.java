@@ -8,10 +8,10 @@ package fr.isima.dependencyinjector.injector;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
-import fr.isima.dependencyinjector.injector.annotations.Inject;
-import fr.isima.dependencyinjector.injector.annotations.Preferred;
-import fr.isima.dependencyinjector.injector.annotations.Singleton;
-import fr.isima.dependencyinjector.injector.interceptor.IInterceptor;
+import fr.isima.dependencyinjector.annotations.Inject;
+import fr.isima.dependencyinjector.annotations.Preferred;
+import fr.isima.dependencyinjector.annotations.Singleton;
+import fr.isima.dependencyinjector.interceptor.IInterceptor;
 
 import java.lang.reflect.*;
 import java.util.ArrayList;
@@ -217,14 +217,14 @@ public final class EJBContainer
                         // No instance for singleton => instanciate it
                         else
                         {
-                            Object newInstance = instantiateType(o, field, fieldClass, targetClass);
+                            Object newInstance = instantiateType(o, field, targetClass);
                             singletonInstances.put(targetClass, newInstance);
                         }
                     }
                     // Normal case
                     else
                     {
-                        instantiateType(o, field, fieldClass, targetClass);
+                        instantiateType(o, field, targetClass);
                     }
                 }
             }
@@ -238,14 +238,14 @@ public final class EJBContainer
      * @param targetClass Target class to instanciate.
      * @return Instantiated object.
      */
-    private Object instantiateType(Object instance, Field field, Class interfaceClass, Class targetClass) throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
+    private Object instantiateType(Object instance, Field field, Class targetClass) throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
     {
         Object instantiatedProxy = null;
         try
         {
             Object instantiatedObject = targetClass.newInstance();
             instantiatedProxy = Proxy.newProxyInstance( targetClass.getClassLoader(),
-                                                        new Class[] { interfaceClass },
+                                                        targetClass.getInterfaces(),
                                                         new ContainerInvocationHandler(instantiatedObject));
 
             // Recursive injections

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector.interceptor;
+package fr.isima.dependencyinjector.interceptor;
 
 import java.lang.reflect.Method;
 

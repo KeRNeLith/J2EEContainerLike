@@ -8,9 +8,8 @@
     
     <modules>
         <module>container</module>
-        <module>common</module>
         <module>logging</module>
-	<module>transactional</module>
+	    <module>transactional</module>
         <module>tests</module>
     </modules>
 

@@ -5,8 +5,8 @@
  */
 package fr.isima.dependencyinjector.injector.implems;
 
-import fr.isima.dependencyinjector.injector.annotations.Inject;
-import fr.isima.dependencyinjector.injector.annotations.Singleton;
+import fr.isima.dependencyinjector.annotations.Inject;
+import fr.isima.dependencyinjector.annotations.Singleton;
 import fr.isima.dependencyinjector.injector.interfaces.ISeftInjectService;
 
 /**

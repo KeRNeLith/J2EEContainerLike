@@ -5,7 +5,7 @@
  */
 package fr.isima.dependencyinjector.annotations;
 
-import fr.isima.dependencyinjector.injector.annotations.Behaviour;
+import fr.isima.dependencyinjector.annotations.Behaviour;
 import fr.isima.dependencyinjector.transaction.TransactionInterceptor;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Target;

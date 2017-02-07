@@ -11,7 +11,7 @@ import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.ContainerInvocationHandler;
-import fr.isima.dependencyinjector.injector.annotations.Inject;
+import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
 import fr.isima.dependencyinjector.injector.implems.PreferredSuperService;

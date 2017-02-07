@@ -5,7 +5,7 @@
  */
 package fr.isima.dependencyinjector.injector.implems;
 
-import fr.isima.dependencyinjector.injector.annotations.Inject;
+import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.interfaces.INormalService;
 import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
 

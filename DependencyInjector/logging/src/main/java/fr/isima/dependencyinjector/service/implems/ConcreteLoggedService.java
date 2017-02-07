@@ -15,7 +15,7 @@ import fr.isima.dependencyinjector.service.interfaces.ILoggedService;
 public class ConcreteLoggedService implements ILoggedService
 {
     @Override
-    @Log    // Toujours au niveau de l'implementation !
+    @Log    // Always at implementation level !
     public void method1() 
     {
         // Do something

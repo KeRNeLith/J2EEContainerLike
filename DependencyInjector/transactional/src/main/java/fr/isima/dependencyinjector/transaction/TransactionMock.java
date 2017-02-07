@@ -5,7 +5,7 @@
  */
 package fr.isima.dependencyinjector.transaction;
 
-import fr.isima.dependencyinjector.injector.annotations.Preferred;
+import fr.isima.dependencyinjector.annotations.Preferred;
 
 /**
  *
@@ -36,7 +36,7 @@ public class TransactionMock implements ITransaction
         ++nbRollbacks;
     }
     
-    // Accesseurs
+    // Accessors
     public static int getNbBegins()
     {
         return nbBegins;
