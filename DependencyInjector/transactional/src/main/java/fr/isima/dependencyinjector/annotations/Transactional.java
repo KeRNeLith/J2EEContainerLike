@@ -8,6 +8,8 @@ package fr.isima.dependencyinjector.annotations;
 import fr.isima.dependencyinjector.annotations.Behaviour;
 import fr.isima.dependencyinjector.transaction.TransactionInterceptor;
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
@@ -15,6 +17,7 @@ import java.lang.annotation.Target;
  * @author kernelith
  */
 @Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
 @Behaviour(interceptor = TransactionInterceptor.class)
 public @interface Transactional 
 {

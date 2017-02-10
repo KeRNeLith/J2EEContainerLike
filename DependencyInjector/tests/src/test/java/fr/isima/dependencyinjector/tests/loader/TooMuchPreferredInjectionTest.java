@@ -1,4 +1,4 @@
-package fr.isima.dependencyinjector.tests;
+package fr.isima.dependencyinjector.tests.loader;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -8,28 +8,28 @@ package fr.isima.dependencyinjector.tests;
 
 
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
-import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
+import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.EJBContainer;
-import fr.isima.dependencyinjector.injector.interfaces.IBigService;
-import org.junit.Test;
+import fr.isima.dependencyinjector.injector.interfaces.IHugeService;
 import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  *
  * @author kernelith
  */
-public class LoaderTooMuchInjectionTest
+public class TooMuchPreferredInjectionTest
 {
     @Inject
-    private IBigService bigService;         // 2 Implems
+    private IHugeService service;         // 2 Implems
     
     // Tests
-    @Test(expected = TooMuchConcreteClassFound.class)
-    public void injectionDependencyLoaderTooMuchChoice() throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
+    @Test(expected = TooMuchPreferredClassFound.class)
+    public void injectionDependencyTooMuchPreferred() throws TooMuchPreferredClassFound, NoConcreteClassFound, TooMuchConcreteClassFound
     {
-        assertNull(bigService);
+        assertNull(service);
         
         // Injection
         EJBContainer.getInjector().inject(this);

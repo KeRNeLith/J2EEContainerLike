@@ -1,4 +1,4 @@
-package fr.isima.dependencyinjector.tests;
+package fr.isima.dependencyinjector.tests.transaction;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -48,8 +48,7 @@ public class TransactionalTest
     {
         assertNotNull(requireService);
         assertNotNull(transaction);
-        
-        assertTrue(transaction instanceof TransactionMock);
+
         assertEquals(0, TransactionMock.getNbBegins());
         assertEquals(0, TransactionMock.getNbCommits());
         assertEquals(0, TransactionMock.getNbRollbacks());
@@ -59,15 +58,16 @@ public class TransactionalTest
         assertEquals(1, TransactionMock.getNbBegins());
         assertEquals(1, TransactionMock.getNbCommits());
         assertEquals(0, TransactionMock.getNbRollbacks());
+
+        TransactionMock.reset();
     }
 
-    @Test
+    /*@Test
     public void requireFailedTransaction()
     {
         assertNotNull(requireService);
         assertNotNull(transaction);
 
-        assertTrue(transaction instanceof TransactionMock);
         assertEquals(0, TransactionMock.getNbBegins());
         assertEquals(0, TransactionMock.getNbCommits());
         assertEquals(0, TransactionMock.getNbRollbacks());
@@ -85,7 +85,6 @@ public class TransactionalTest
         assertNotNull(requireNewService);
         assertNotNull(transaction);
 
-        assertTrue(transaction instanceof TransactionMock);
         assertEquals(0, TransactionMock.getNbBegins());
         assertEquals(0, TransactionMock.getNbCommits());
         assertEquals(0, TransactionMock.getNbRollbacks());
@@ -103,7 +102,6 @@ public class TransactionalTest
         assertNotNull(requireNewService);
         assertNotNull(transaction);
 
-        assertTrue(transaction instanceof TransactionMock);
         assertEquals(0, TransactionMock.getNbBegins());
         assertEquals(0, TransactionMock.getNbCommits());
         assertEquals(0, TransactionMock.getNbRollbacks());
@@ -113,5 +111,5 @@ public class TransactionalTest
         assertEquals(2, TransactionMock.getNbBegins());
         assertEquals(0, TransactionMock.getNbCommits());
         assertEquals(2, TransactionMock.getNbRollbacks());
-    }
+    }*/
 }

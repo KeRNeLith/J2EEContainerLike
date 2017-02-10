@@ -1,4 +1,4 @@
-package fr.isima.dependencyinjector.tests;
+package fr.isima.dependencyinjector.tests.log;
 
 /*
  * To change this license header, choose License Headers in Project Properties.

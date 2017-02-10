@@ -13,7 +13,7 @@ import fr.isima.dependencyinjector.service.interfaces.IRequireTransactionalServi
  *
  * @author kernelith
  */
-public class ConcreteTransactionalService implements IRequireTransactionalService
+public class ConcreteRequireTransactionalService implements IRequireTransactionalService
 {
     @Override
     @Transactional(type = REQUIRE)

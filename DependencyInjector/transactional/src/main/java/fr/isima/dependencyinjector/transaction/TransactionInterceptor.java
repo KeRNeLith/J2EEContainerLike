@@ -22,6 +22,7 @@ public class TransactionInterceptor implements IInterceptor
     @Override
     public void before(Object instance, Method method, Object... parameters) 
     {
+
         transcation.begin();
     }
 
