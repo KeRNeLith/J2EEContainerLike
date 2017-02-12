@@ -5,9 +5,12 @@
  */
 package fr.isima.dependencyinjector.service.implems;
 
+import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.annotations.Transactional;
-import static fr.isima.dependencyinjector.annotations.Transactional.TransactionType.REQUIRE;
+import fr.isima.dependencyinjector.entitymanager.IEntityManager;
 import fr.isima.dependencyinjector.service.interfaces.IRequireTransactionalService;
+
+import static fr.isima.dependencyinjector.annotations.Transactional.TransactionType.REQUIRE;
 
 /**
  *
@@ -15,6 +18,9 @@ import fr.isima.dependencyinjector.service.interfaces.IRequireTransactionalServi
  */
 public class ConcreteRequireTransactionalService implements IRequireTransactionalService
 {
+    @Inject
+    private IEntityManager em;
+
     @Override
     @Transactional(type = REQUIRE)
     public void methodSucceed()
@@ -23,8 +29,36 @@ public class ConcreteRequireTransactionalService implements IRequireTransactiona
 
     @Override
     @Transactional(type = REQUIRE)
-    public void methodFailed()
+    public void methodImbricationSucceed()
+    {
+        em.execSimpleSuccessQuery();
+    }
+
+    @Override
+    @Transactional(type = REQUIRE)
+    public void methodMixedSucceed()
+    {
+        em.execSuccessQuery();
+    }
+
+    @Override
+    @Transactional(type = REQUIRE)
+    public void methodFailed() throws Exception
     {
         throw new RuntimeException("Impossible to finish execution of transactional method");
+    }
+
+    @Override
+    @Transactional(type = REQUIRE)
+    public void methodImbricationFailed() throws Exception
+    {
+        em.execSimpleFailedQuery();
+    }
+
+    @Override
+    @Transactional(type = REQUIRE)
+    public void methodMixedFailed() throws Exception
+    {
+        em.execFailedQuery();
     }
 }

@@ -14,7 +14,8 @@ import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.injector.interfaces.INotImplementedService;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertNull;
 
 /**
  *

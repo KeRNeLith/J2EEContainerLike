@@ -5,25 +5,20 @@
  */
 package fr.isima.dependencyinjector.injector;
 
-import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.annotations.Preferred;
 import fr.isima.dependencyinjector.annotations.Singleton;
+import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
+import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
+import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.interceptor.IInterceptor;
+import org.reflections.Reflections;
 
-import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.lang.reflect.Field;
+import java.lang.reflect.Proxy;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import org.reflections.Reflections;
 
 // TODO list
 // @Inject
@@ -171,7 +166,7 @@ public final class EJBContainer
                 // More than one possibility
                 else if (subTypes.size() > 1)
                 {
-                    List<Class> preferredClass = new ArrayList();
+                    List<Class> preferredClass = new ArrayList<>();
                     for (Class c : subTypes)
                     {
                         if (c.isAnnotationPresent(Preferred.class))
@@ -180,17 +175,17 @@ public final class EJBContainer
                         }
                     }
                     
-                    // More than one prefered class
+                    // More than one preferred class
                     if (preferredClass.size() > 1)
                     {
                         throw new TooMuchPreferredClassFound();
                     }
-                    // One prefered class
+                    // One preferred class
                     else if (preferredClass.size() == 1)
                     {
                         targetClass = preferredClass.get(0);
                     }
-                    // No Prefered class but too much class found
+                    // No Preferred class but too much class found
                     else
                     {
                         throw new TooMuchConcreteClassFound();

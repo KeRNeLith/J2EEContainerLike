@@ -5,8 +5,8 @@
  */
 package fr.isima.dependencyinjector.injector.implems;
 
-import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
 import fr.isima.dependencyinjector.annotations.Preferred;
+import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
 
 /**
  *

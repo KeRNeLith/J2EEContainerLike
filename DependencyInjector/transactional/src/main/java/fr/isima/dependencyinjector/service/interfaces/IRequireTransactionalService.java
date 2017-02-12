@@ -13,5 +13,13 @@ public interface IRequireTransactionalService
 {
     void methodSucceed();
 
-    void methodFailed();
+    void methodImbricationSucceed();
+
+    void methodMixedSucceed();
+
+    void methodFailed() throws Exception;
+
+    void methodImbricationFailed() throws Exception;
+
+    void methodMixedFailed() throws Exception;
 }

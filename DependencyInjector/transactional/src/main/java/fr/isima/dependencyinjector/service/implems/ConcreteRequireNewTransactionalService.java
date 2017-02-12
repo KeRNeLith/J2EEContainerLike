@@ -17,6 +17,13 @@ public class ConcreteRequireNewTransactionalService implements IRequireNewTransa
 
 	@Override
 	@Transactional(type = REQUIRE_NEW)
+	public void methodSimpleSucceed()
+	{
+		System.out.println("Simple success");
+	}
+
+	@Override
+	@Transactional(type = REQUIRE_NEW)
 	public void methodSucceed()
 	{
 		em.execSuccessQuery();
@@ -24,8 +31,29 @@ public class ConcreteRequireNewTransactionalService implements IRequireNewTransa
 
 	@Override
 	@Transactional(type = REQUIRE_NEW)
-	public void methodFailed()
+	public void methodMixedSucceed()
+	{
+		em.execSimpleSuccessQuery();
+	}
+
+	@Override
+	@Transactional(type = REQUIRE_NEW)
+	public void methodSimpleFailed() throws Exception
+	{
+		throw new RuntimeException("Fail to exec");
+	}
+
+	@Override
+	@Transactional(type = REQUIRE_NEW)
+	public void methodFailed() throws Exception
 	{
 		em.execFailedQuery();
+	}
+
+	@Override
+	@Transactional(type = REQUIRE_NEW)
+	public void methodMixedFailed() throws Exception
+	{
+		em.execSimpleFailedQuery();
 	}
 }

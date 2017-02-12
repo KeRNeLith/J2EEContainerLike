@@ -5,10 +5,10 @@
  */
 package fr.isima.dependencyinjector.injector;
 
+import fr.isima.dependencyinjector.annotations.Behaviour;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
-import fr.isima.dependencyinjector.annotations.Behaviour;
 import fr.isima.dependencyinjector.interceptor.IInterceptor;
 
 import java.lang.annotation.Annotation;
@@ -27,7 +27,7 @@ public class ContainerInvocationHandler implements InvocationHandler
 {
     private Object m_object;
 
-    public ContainerInvocationHandler(Object object)
+    ContainerInvocationHandler(Object object)
     {
         m_object = object;
     }
@@ -46,18 +46,18 @@ public class ContainerInvocationHandler implements InvocationHandler
         try
         {
             for (IInterceptor i : interceptors)
-                i.before(proxy, method, args);
+                i.before(proxy, calledMethod, args);
 
             // Real method call
             ret = method.invoke(m_object, args);
 
             for (IInterceptor i : interceptors)
-                i.after(proxy, method, args);
+                i.after(proxy, calledMethod, args);
         }
         catch (Exception e)
         {
             for (IInterceptor i : interceptors)
-                i.onError(proxy, method, args);
+                i.onError(proxy, e, calledMethod, args);
         }
         
         return ret;

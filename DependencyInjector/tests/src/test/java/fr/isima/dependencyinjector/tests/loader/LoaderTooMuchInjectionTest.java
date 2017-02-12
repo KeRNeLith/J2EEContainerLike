@@ -7,14 +7,15 @@ package fr.isima.dependencyinjector.tests.loader;
  */
 
 
-import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.annotations.Inject;
+import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.injector.interfaces.IBigService;
 import org.junit.Test;
-import static org.junit.Assert.*;
+
+import static org.junit.Assert.assertNull;
 
 /**
  *

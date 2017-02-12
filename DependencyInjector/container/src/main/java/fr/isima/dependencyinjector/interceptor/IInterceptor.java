@@ -17,5 +17,5 @@ public interface IInterceptor
     
     void after(Object instance, Method method, Object... parameters);
     
-    void onError(Object instance, Method method, Object... parameters);
+    void onError(Object instance, Exception exception, Method method, Object... parameters) throws Exception;
 }

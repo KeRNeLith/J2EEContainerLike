@@ -7,6 +7,7 @@ package fr.isima.dependencyinjector.logging;
 
 import fr.isima.dependencyinjector.annotations.Preferred;
 import fr.isima.dependencyinjector.annotations.Singleton;
+
 import java.util.ArrayList;
 import java.util.List;
 

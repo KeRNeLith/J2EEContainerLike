@@ -6,23 +6,17 @@
 package fr.isima.dependencyinjector.transaction;
 
 import fr.isima.dependencyinjector.annotations.Preferred;
-import fr.isima.dependencyinjector.annotations.Singleton;
 
 /**
  *
  * @author kernelith
  */
 @Preferred
-// Remove ?
-//@Singleton
 public class TransactionMock implements ITransaction
 {
     private static int nbBegins = 0;
     private static int nbCommits = 0;
     private static int nbRollbacks = 0;
-    /*private int nbBegins = 0;
-    private int nbCommits = 0;
-    private int nbRollbacks = 0;*/
 
     @Override
     public void begin() 
@@ -41,22 +35,10 @@ public class TransactionMock implements ITransaction
     {
         ++nbRollbacks;
     }
-    
-    // Accessors
-    /*public int getNbBegins()
-    {
-        return nbBegins;
-    }
 
-    public int getNbCommits()
-    {
-        return nbCommits;
-    }
-
-    public int getNbRollbacks()
-    {
-        return nbRollbacks;
-    }*/
+    /**
+     * Reset statistic counters.
+     */
     public static void reset()
     {
         nbBegins = 0;
@@ -64,6 +46,7 @@ public class TransactionMock implements ITransaction
         nbRollbacks = 0;
     }
 
+    // Accessors
     public static int getNbBegins()
     {
         return nbBegins;

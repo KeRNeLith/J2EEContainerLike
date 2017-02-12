@@ -7,6 +7,7 @@ package fr.isima.dependencyinjector.logging;
 
 import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.interceptor.IInterceptor;
+
 import java.lang.reflect.Method;
 
 /**
@@ -31,7 +32,7 @@ public class LogInterceptor implements IInterceptor
     }
 
     @Override
-    public void onError(Object instance, Method method, Object... parameters) 
+    public void onError(Object instance, Exception exception, Method method, Object... parameters) throws Exception
     {
         // Nothing
     }

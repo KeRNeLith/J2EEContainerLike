@@ -7,20 +7,21 @@ package fr.isima.dependencyinjector.tests.loader;
  */
 
 
+import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.ContainerInvocationHandler;
-import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.injector.EJBContainer;
-import fr.isima.dependencyinjector.injector.interfaces.INormalService;
 import fr.isima.dependencyinjector.injector.implems.NormalServiceImplm;
-import static org.junit.Assert.*;
+import fr.isima.dependencyinjector.injector.interfaces.INormalService;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
+
+import static org.junit.Assert.*;
 
 /**
  *
