@@ -47,11 +47,6 @@ public final class EJBContainer
     private final Map<Class, Object> singletonInstances;
 
     /**
-     * Map of all interceptors.
-     */
-    private final Map<Class, IInterceptor> interceptors;
-
-    /**
      * Tool to use reflection.
      */
     private Reflections reflectionHelper;
@@ -65,46 +60,8 @@ public final class EJBContainer
     private EJBContainer()
     {
         singletonInstances = new HashMap();
-        interceptors = new HashMap();
         
         reflectionHelper = new Reflections("");
-        
-        // Instantiate all interceptors that are usable
-        Set< Class<? extends IInterceptor> > interceptorsClasses = reflectionHelper.getSubTypesOf(IInterceptor.class);
-        for (Class<? extends IInterceptor> interceptorClass : interceptorsClasses)
-        {
-            try 
-            {
-                IInterceptor interceptor = interceptorClass.newInstance();
-                try 
-                {
-                    inject(interceptor);
-                    interceptors.put(interceptorClass, interceptor);
-                } 
-                catch ( TooMuchPreferredClassFound
-                        | TooMuchConcreteClassFound ex) 
-                {
-                    // Problem impossible to inject interceptors dependencies
-                    Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
-                                                                        "Container could not determine type while performing injection for " + interceptor.getClass().getName(),
-                                                                        ex);
-                }
-                catch (NoConcreteClassFound ex)
-                {
-                    // Problem impossible to inject interceptors dependencies
-                    Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
-                            "Container could not find type to use while performing injection for " + interceptorClass.getName(),
-                            ex);
-                }
-            } 
-            catch (InstantiationException | IllegalAccessException ex) 
-            {
-                // Problem impossible to instantiate interceptors
-                Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
-                                                                    "Impossible to instantiate interceptor of type " + interceptorClass.getName(),
-                                                                    ex);
-            }
-        }
         
         associatedTypes = new HashMap();
     }
