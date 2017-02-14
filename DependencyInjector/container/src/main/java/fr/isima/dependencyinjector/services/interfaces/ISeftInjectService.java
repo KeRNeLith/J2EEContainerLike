@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector.interfaces;
+package fr.isima.dependencyinjector.services.interfaces;
 
 /**
  *
  * @author kernelith
  */
-public interface INotImplementedService 
+public interface ISeftInjectService 
 {
-    String notImplementedFoo();
+    String selfFoo();
 }

@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector;
+package fr.isima.dependencyinjector.injector.handlers;
 
 import fr.isima.dependencyinjector.annotations.Behaviour;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
+import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.interceptor.IInterceptor;
 
 import java.lang.annotation.Annotation;
@@ -30,11 +31,6 @@ public class ContainerInvocationHandler implements InvocationHandler
     ContainerInvocationHandler()
     {
         m_object = null;
-    }
-
-    ContainerInvocationHandler(Object object)
-    {
-        m_object = object;
     }
 
     @Override

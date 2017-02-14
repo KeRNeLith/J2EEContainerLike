@@ -3,18 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector.implems;
+package fr.isima.dependencyinjector.services.implems;
 
-import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
+import fr.isima.dependencyinjector.services.interfaces.IBigService;
 
 /**
  *
  * @author kernelith
  */
-public class AlternativeSuperService implements ISuperService
+public class BigServiceImplem2 implements IBigService
 {
-    @Override
-    public String superFoo() 
+    public String bigFoo() 
     {
         return "success";
     }

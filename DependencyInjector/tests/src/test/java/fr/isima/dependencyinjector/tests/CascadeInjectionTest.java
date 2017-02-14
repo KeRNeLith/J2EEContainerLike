@@ -11,12 +11,12 @@ import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
-import fr.isima.dependencyinjector.injector.ContainerInvocationHandler;
+import fr.isima.dependencyinjector.injector.handlers.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.injector.EJBContainer;
-import fr.isima.dependencyinjector.injector.implems.ConcreteCascadeService;
-import fr.isima.dependencyinjector.injector.implems.NormalServiceImplm;
-import fr.isima.dependencyinjector.injector.implems.PreferredSuperService;
-import fr.isima.dependencyinjector.injector.interfaces.ICascadeService;
+import fr.isima.dependencyinjector.services.implems.ConcreteCascadeService;
+import fr.isima.dependencyinjector.services.implems.NormalServiceImplm;
+import fr.isima.dependencyinjector.services.implems.PreferredSuperService;
+import fr.isima.dependencyinjector.services.interfaces.ICascadeService;
 import org.junit.Before;
 import org.junit.Test;
 

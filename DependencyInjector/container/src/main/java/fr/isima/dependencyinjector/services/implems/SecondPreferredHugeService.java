@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector.implems;
+package fr.isima.dependencyinjector.services.implems;
 
 import fr.isima.dependencyinjector.annotations.Preferred;
-import fr.isima.dependencyinjector.injector.interfaces.IHugeService;
+import fr.isima.dependencyinjector.services.interfaces.IHugeService;
 
 /**
  *
  * @author kernelith
  */
 @Preferred
-public class PreferredHugeService implements IHugeService
+public class SecondPreferredHugeService implements IHugeService
 {
     @Override
     public String hugeFoo() 

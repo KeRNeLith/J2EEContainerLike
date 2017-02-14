@@ -3,21 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector.implems;
+package fr.isima.dependencyinjector.services.implems;
 
 import fr.isima.dependencyinjector.annotations.Preferred;
-import fr.isima.dependencyinjector.injector.interfaces.ISuperService;
+import fr.isima.dependencyinjector.services.interfaces.IHugeService;
 
 /**
  *
  * @author kernelith
  */
 @Preferred
-public class PreferredSuperService implements ISuperService
+public class PreferredHugeService implements IHugeService
 {
     @Override
-    public String superFoo() 
+    public String hugeFoo() 
     {
         return "success";
-    }    
+    }
 }

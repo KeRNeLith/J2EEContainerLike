@@ -1,9 +1,10 @@
-package fr.isima.dependencyinjector.injector;
+package fr.isima.dependencyinjector.injector.factories;
 
 import fr.isima.dependencyinjector.annotations.Singleton;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
+import fr.isima.dependencyinjector.injector.EJBContainer;
 
 /**
  * Created by kernelith on 14/02/17.

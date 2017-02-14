@@ -3,18 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.injector.implems;
+package fr.isima.dependencyinjector.services.implems;
 
-import fr.isima.dependencyinjector.injector.interfaces.IHugeService;
+import fr.isima.dependencyinjector.services.interfaces.IBigService;
 
 /**
  *
  * @author kernelith
  */
-public class AlternativeHugeService implements IHugeService
+public class BigServiceImplem1 implements IBigService
 {
     @Override
-    public String hugeFoo() 
+    public String bigFoo() 
     {
         return "success";
     }

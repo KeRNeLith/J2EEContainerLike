@@ -12,7 +12,7 @@ import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.EJBContainer;
-import fr.isima.dependencyinjector.injector.interfaces.IHugeService;
+import fr.isima.dependencyinjector.services.interfaces.IHugeService;
 import org.junit.Test;
 
 import static org.junit.Assert.assertNull;

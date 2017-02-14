@@ -1,4 +1,4 @@
-package fr.isima.dependencyinjector.injector;
+package fr.isima.dependencyinjector.injector.finders;
 
 import fr.isima.dependencyinjector.annotations.Preferred;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
