@@ -27,6 +27,11 @@ public class ContainerInvocationHandler implements InvocationHandler
 {
     private Object m_object;
 
+    ContainerInvocationHandler()
+    {
+        m_object = null;
+    }
+
     ContainerInvocationHandler(Object object)
     {
         m_object = object;

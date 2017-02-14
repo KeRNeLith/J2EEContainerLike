@@ -40,12 +40,7 @@ public final class EJBContainer
      * Instance.
      */
     private static EJBContainer instance;
-    
-    /**
-     * Map of all singleton instances instantiated.
-     */
-    private final Map<Class, Object> singletonInstances;
-    
+
     @Deprecated
     private final Map<Class, Class> associatedTypes;
     
@@ -54,8 +49,6 @@ public final class EJBContainer
      */
     private EJBContainer()
     {
-        singletonInstances = new HashMap<>();
-        
         associatedTypes = new HashMap<>();
     }
     
@@ -104,76 +97,23 @@ public final class EJBContainer
             {
                 // Search the class that will be instantiate
                 Class fieldClass = field.getType();
-                Class targetClass = ClassFinder.findClassFor(fieldClass);
-                
-                // If type found to resolve injection
-                if (targetClass != null)
-                {
-                    // Case of class that is annoted Singleton
-                    if (targetClass.isAnnotationPresent(Singleton.class))
-                    {
-                        // If singleton already instantiated
-                        if (singletonInstances.containsKey(targetClass))
-                        {
-                            setFieldValue(o, field, singletonInstances.get(targetClass));
-                        }
-                        // No instance for singleton => instantiate it
-                        else
-                        {
-                            Object newInstance = instantiateType(o, field, targetClass);
-                            singletonInstances.put(targetClass, newInstance);
-                        }
-                    }
-                    // Normal case
-                    else
-                    {
-                        instantiateType(o, field, targetClass);
-                    }
-                }
+
+                // Create a proxy in place of object
+                Object proxy = ContainerProxyFactory.createNewProxyFor(fieldClass);
+
+                // Set field value
+                setFieldValue(o, field, proxy);
             }
         }
     }
     
     /**
-     * Instantiate an object for the given field of given type.
-     * @param instance Instance on which setting value.
-     * @param field Field concerned for instanciation.
-     * @param targetClass Target class to instanciate.
-     * @return Instantiated object.
-     */
-    private Object instantiateType(Object instance, Field field, Class targetClass) throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
-    {
-        Object instantiatedProxy = null;
-        try
-        {
-            Object instantiatedObject = targetClass.newInstance();
-            instantiatedProxy = Proxy.newProxyInstance( targetClass.getClassLoader(),
-                                                        targetClass.getInterfaces(),
-                                                        new ContainerInvocationHandler(instantiatedObject));
-
-            // Recursive injections
-            inject(instantiatedObject);
-
-            setFieldValue(instance, field, instantiatedProxy);
-        }
-        catch (InstantiationException | IllegalAccessException e)
-        {
-            Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
-                                                                "Impossible to instantiate type " + targetClass.getName() + " for field " + field.getName() + " for object of type " + instance.getClass().getName(),
-                                                                e);
-        }
-        
-        return instantiatedProxy;
-    }
-    
-    /**
      * Set an instance into field.
-     * @param <T> Field value type.
      * @param instance Instance on which setting value.
      * @param field Field that wil receive value for the given instance.
      * @param value Value.
      */
-    private <T> void setFieldValue(Object instance, Field field, T value)
+    private void setFieldValue(Object instance, Field field, Object value)
     {
         boolean accessible = field.isAccessible();
         if (!accessible)
