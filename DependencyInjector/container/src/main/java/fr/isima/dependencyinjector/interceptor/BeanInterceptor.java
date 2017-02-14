@@ -10,6 +10,11 @@ import java.lang.reflect.Method;
  */
 public class BeanInterceptor implements IInterceptor
 {
+	/**
+	 * Handle interceptor logic that simply run a bean method.
+	 * @param invocation Context of invocation.
+	 * @return Bean method result.
+	 */
 	@Override
 	public Object invoke(InvocationContextChain invocation)
 	{

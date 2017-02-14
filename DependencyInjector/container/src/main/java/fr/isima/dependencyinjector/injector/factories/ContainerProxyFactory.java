@@ -13,6 +13,11 @@ import java.lang.reflect.Proxy;
  */
 public class ContainerProxyFactory
 {
+	/**
+	 * Instantiate a proxy corresponding to the given interface class.
+	 * @param interfaceClass Interface class that proxy should dynamically implements.
+	 * @return Instantiated proxy.
+	 */
 	public static Object createNewProxyFor(Class interfaceClass) throws TooMuchPreferredClassFound, TooMuchConcreteClassFound, NoConcreteClassFound
 	{
 		Object proxy = null;

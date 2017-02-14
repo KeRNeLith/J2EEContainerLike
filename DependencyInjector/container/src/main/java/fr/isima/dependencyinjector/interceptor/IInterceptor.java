@@ -13,5 +13,10 @@ import fr.isima.dependencyinjector.injector.handlers.InvocationContextChain;
  */
 public interface IInterceptor 
 {
+    /**
+     * Handle interceptor logic.
+     * @param invocation Context of invocation.
+     * @return Interceptor result.
+     */
     Object invoke(InvocationContextChain invocation);
 }

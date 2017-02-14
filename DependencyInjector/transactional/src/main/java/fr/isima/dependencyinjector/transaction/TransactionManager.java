@@ -10,9 +10,16 @@ import java.util.Stack;
  */
 public class TransactionManager implements ITransactionManager
 {
+	/**
+	 * Transaction handler (Handle begin, commit and rollback operations).
+	 */
 	@Inject
 	private ITransaction transcation;
 
+	/**
+	 * Call stack of transactions.
+	 * Store all transaction made by their status.
+	 */
 	private static ThreadLocal<Stack<TransactionStatus>> callStackTransactions = new ThreadLocal<Stack<TransactionStatus>>() {
 		@Override
 		protected Stack<TransactionStatus> initialValue()
@@ -21,11 +28,19 @@ public class TransactionManager implements ITransactionManager
 		}
 	};
 
+	/**
+	 * Check if there are running transactions.
+	 * @return True if there is at least one transaction running.
+	 */
 	private boolean hasTransactionRunning()
 	{
 		return !callStackTransactions.get().empty();
 	}
 
+	/**
+	 * Add a new transaction status.
+	 * @param isNew Flag of the transaction status.
+	 */
 	private void pushTransaction(boolean isNew)
 	{
 		callStackTransactions.get().push(new TransactionStatus(isNew));

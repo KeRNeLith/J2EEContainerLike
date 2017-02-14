@@ -22,6 +22,11 @@ public class SingletonFactory
 		singletonsInstances = new HashMap<>();
 	}
 
+	/**
+	 * Instantiate of get an instance of targetClass as singleton.
+	 * @param targetClass Class wanted for the singleton object.
+	 * @return Singleton instance object.
+	 */
 	public static Object getInstanceFor(Class targetClass) throws IllegalAccessException, InstantiationException, TooMuchPreferredClassFound, TooMuchConcreteClassFound, NoConcreteClassFound
 	{
 		Object instance = null;

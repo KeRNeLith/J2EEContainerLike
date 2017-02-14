@@ -5,6 +5,9 @@ package fr.isima.dependencyinjector.transaction;
  */
 public class TransactionStatus
 {
+	/**
+	 * Indicate if the transaction is a new transaction of not.
+	 */
 	private boolean isNewTransaction;
 
 	/**

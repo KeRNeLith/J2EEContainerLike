@@ -11,6 +11,11 @@ import fr.isima.dependencyinjector.injector.EJBContainer;
  */
 public class ContainerObjectFactory
 {
+	/**
+	 * Instantiate an object of type targetClass.
+	 * @param targetClass Class wanted for the instantiated object.
+	 * @return Instantiated object.
+	 */
 	public static Object createNewInstanceFor(Class targetClass) throws TooMuchPreferredClassFound, TooMuchConcreteClassFound, NoConcreteClassFound, IllegalAccessException, InstantiationException
 	{
 		Object instance = null;

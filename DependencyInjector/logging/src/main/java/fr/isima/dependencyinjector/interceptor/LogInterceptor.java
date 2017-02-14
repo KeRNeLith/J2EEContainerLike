@@ -15,9 +15,17 @@ import fr.isima.dependencyinjector.logging.ILogger;
  */
 public class LogInterceptor implements IInterceptor
 {
+    /**
+     * Logger.
+     */
     @Inject
     private ILogger logger;
 
+    /**
+     * Handle logging interceptor logic.
+     * @param invocation Context of invocation.
+     * @return Bean method result.
+     */
     @Override
     public Object invoke(InvocationContextChain invocation)
     {

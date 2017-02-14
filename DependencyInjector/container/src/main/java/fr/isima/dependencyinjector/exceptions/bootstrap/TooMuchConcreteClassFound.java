@@ -11,5 +11,4 @@ package fr.isima.dependencyinjector.exceptions.bootstrap;
  */
 public class TooMuchConcreteClassFound extends Exception
 {
-    
 }

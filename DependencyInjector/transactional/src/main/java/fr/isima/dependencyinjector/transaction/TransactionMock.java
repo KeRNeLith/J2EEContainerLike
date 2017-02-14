@@ -14,8 +14,19 @@ import fr.isima.dependencyinjector.annotations.Preferred;
 @Preferred
 public class TransactionMock implements ITransaction
 {
+    /**
+     * Number of begin done.
+     */
     private static int nbBegins = 0;
+
+    /**
+     * Number of commit done.
+     */
     private static int nbCommits = 0;
+
+    /**
+     * Number of rollback done.
+     */
     private static int nbRollbacks = 0;
 
     @Override

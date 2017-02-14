@@ -19,6 +19,9 @@ import java.util.List;
 @Singleton
 public class MyLogger implements ILogger
 {
+    /**
+     * List of log entries.
+     */
     private final List<String> logs = new ArrayList<>();
     
     @Override

@@ -11,7 +11,16 @@ package fr.isima.dependencyinjector.logging;
  */
 public interface ILogger 
 {
+    /**
+     * Indicate if logger had logged the passed string.
+     * @param str String to check.
+     * @return True if logger had logged the string.
+     */
     boolean contains(String str);
-    
+
+    /**
+     * Add a log entry.
+     * @param str Log entry.
+     */
     void add(String str);
 }

@@ -21,6 +21,9 @@ import java.util.List;
  */
 public class ContainerInvocationHandler implements InvocationHandler
 {
+    /**
+     * Instance of the object handled by the proxy containing this invocation handler.
+     */
     private Object instance;
 
     public ContainerInvocationHandler()
@@ -28,6 +31,12 @@ public class ContainerInvocationHandler implements InvocationHandler
         instance = null;
     }
 
+    /**
+     * Handle logic when calling a method of a dynamic proxy.
+     * @param proxy Proxy instance called.
+     * @param method Invoked method.
+     * @param args Method arguments.
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable 
     {

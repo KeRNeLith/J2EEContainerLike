@@ -18,9 +18,17 @@ import java.lang.reflect.Method;
  */
 public class TransactionInterceptor implements IInterceptor
 {
+    /**
+     * Transaction manager.
+     */
     @Inject
     private ITransactionManager transactionManager;
 
+    /**
+     * Handle transaction interceptor logic.
+     * @param invocation Context of invocation.
+     * @return Bean method result.
+     */
     @Override
     public Object invoke(InvocationContextChain invocation)
     {

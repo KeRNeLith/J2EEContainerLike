@@ -26,6 +26,11 @@ public class ClassFinder
 		reflectionHelper = new Reflections("fr.isima");
 	}
 
+	/**
+	 * Find the class that resolve input class.
+	 * @param inputClass Input class.
+	 * @return Class that resolve input class.
+	 */
 	public static Class<?> findClassFor(Class<?> inputClass) throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
 	{
 		Class<?> outputClass = null;

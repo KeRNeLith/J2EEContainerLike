@@ -11,9 +11,18 @@ package fr.isima.dependencyinjector.transaction;
  */
 public interface ITransaction
 {
+    /**
+     * Begin a new transaction.
+     */
     void begin();
 
+    /**
+     * Commit current running transaction.
+     */
     void commit();
 
+    /**
+     * Rollback running transaction.
+     */
     void rollback();
 }

@@ -12,14 +12,35 @@ import java.util.List;
  */
 public class InvocationContextChain
 {
+	/**
+	 * Concerned bean.
+	 */
 	private Object object;
 
+	/**
+	 * List of attached interceptors.
+	 */
 	private List<IInterceptor> interceptors;
+	/**
+	 * Method called.
+	 */
 	private Method method;
+	/**
+	 * Method arguments.
+	 */
 	private Object[] args;
 
+	/**
+	 * Interceptor index (progression in responsibility chain).
+	 */
 	private int index;
 
+	/**
+	 * Construct a basic responsibility chain that only invoke method.
+	 * @param bean Object concerned.
+	 * @param method Method called.
+	 * @param args Method arguments.
+	 */
 	public InvocationContextChain(Object bean, Method method, Object... args)
 	{
 		this.object = bean;
@@ -31,12 +52,21 @@ public class InvocationContextChain
 		this.args = args;
 	}
 
+	/**
+	 * Build a responsibility chain based on the given list of interceptor to use.
+	 * Automatically add an interceptor in charge of calling embedded method.
+	 * @param interceptors List of interceptors.
+	 */
 	void buildResponsibilityChain(List<IInterceptor> interceptors)
 	{
 		this.interceptors = interceptors;
 		this.interceptors.add(new BeanInterceptor());
 	}
 
+	/**
+	 * Execute next step of responsibility chain.
+	 * @return
+	 */
 	public Object execNextInterceptor()
 	{
 		return interceptors.get(index++).invoke(this);

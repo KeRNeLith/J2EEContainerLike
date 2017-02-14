@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 public final class EJBContainer 
 {
     /**
-     * Instance.
+     * Container instance.
      */
     private static EJBContainer instance;
 
@@ -69,7 +69,7 @@ public final class EJBContainer
      * Handle mechanism of dependency injection on the given object.
      * @param o Object that will have dependency injections.
      * @throws NoConcreteClassFound No concrete class found while trying to perform injection.
-     * @throws TooMuchPreferredClassFound Too much prefered class found while trying to perform injection.
+     * @throws TooMuchPreferredClassFound Too much preferred class found while trying to perform injection.
      * @throws TooMuchConcreteClassFound Too much concrete class found while trying to perform injection.
      */
     public void inject(Object o) throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound

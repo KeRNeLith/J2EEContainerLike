@@ -13,6 +13,11 @@ import java.util.List;
  */
 public class BehaviourFinder
 {
+	/**
+	 * Get a list of interceptors class that are attached to the given method.
+	 * @param method Method to check.
+	 * @return List of interceptor's classes.
+	 */
 	public static List<Class> getInterceptorsFor(Method method)
 	{
 		List<Class> interceptorsClasses = new ArrayList<>();
