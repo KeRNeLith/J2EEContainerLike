@@ -45,11 +45,6 @@ public final class EJBContainer
      * Map of all singleton instances instantiated.
      */
     private final Map<Class, Object> singletonInstances;
-
-    /**
-     * Tool to use reflection.
-     */
-    private Reflections reflectionHelper;
     
     @Deprecated
     private final Map<Class, Class> associatedTypes;
@@ -59,11 +54,9 @@ public final class EJBContainer
      */
     private EJBContainer()
     {
-        singletonInstances = new HashMap();
+        singletonInstances = new HashMap<>();
         
-        reflectionHelper = new Reflections("");
-        
-        associatedTypes = new HashMap();
+        associatedTypes = new HashMap<>();
     }
     
     /**
@@ -110,50 +103,8 @@ public final class EJBContainer
             if (field.isAnnotationPresent(Inject.class))
             {
                 // Search the class that will be instantiate
-                Class targetClass = null;
                 Class fieldClass = field.getType();
-                
-                Set<Class> subTypes = reflectionHelper.getSubTypesOf(fieldClass);
-                
-                // No Implementations found
-                if (subTypes.size() <= 0)
-                {
-                    throw new NoConcreteClassFound();
-                }
-                // More than one possibility
-                else if (subTypes.size() > 1)
-                {
-                    List<Class> preferredClass = new ArrayList<>();
-                    for (Class c : subTypes)
-                    {
-                        if (c.isAnnotationPresent(Preferred.class))
-                        {
-                            preferredClass.add(c);
-                        }
-                    }
-                    
-                    // More than one preferred class
-                    if (preferredClass.size() > 1)
-                    {
-                        throw new TooMuchPreferredClassFound();
-                    }
-                    // One preferred class
-                    else if (preferredClass.size() == 1)
-                    {
-                        targetClass = preferredClass.get(0);
-                    }
-                    // No Preferred class but too much class found
-                    else
-                    {
-                        throw new TooMuchConcreteClassFound();
-                    }
-                }
-                // Only one implementation found
-                else
-                {
-                    Iterator it = subTypes.iterator();
-                    targetClass = (Class) it.next();
-                }
+                Class targetClass = ClassFinder.findClassFor(fieldClass);
                 
                 // If type found to resolve injection
                 if (targetClass != null)
@@ -161,12 +112,12 @@ public final class EJBContainer
                     // Case of class that is annoted Singleton
                     if (targetClass.isAnnotationPresent(Singleton.class))
                     {
-                        // If singleton already instanciated
+                        // If singleton already instantiated
                         if (singletonInstances.containsKey(targetClass))
                         {
                             setFieldValue(o, field, singletonInstances.get(targetClass));
                         }
-                        // No instance for singleton => instanciate it
+                        // No instance for singleton => instantiate it
                         else
                         {
                             Object newInstance = instantiateType(o, field, targetClass);
@@ -184,7 +135,7 @@ public final class EJBContainer
     }
     
     /**
-     * Instanciate an object for the given field of given type.
+     * Instantiate an object for the given field of given type.
      * @param instance Instance on which setting value.
      * @param field Field concerned for instanciation.
      * @param targetClass Target class to instanciate.
