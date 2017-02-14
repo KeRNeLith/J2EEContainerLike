@@ -31,8 +31,6 @@ public class ContainerInvocationHandler implements InvocationHandler
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable 
     {
-        Object ret = null;
-
         // Check if object is already injected or not
         if (instance == null)
         {
@@ -57,25 +55,12 @@ public class ContainerInvocationHandler implements InvocationHandler
             interceptors.add((IInterceptor) ContainerObjectFactory.createNewInstanceFor(interceptorClass));
         }
 
-        // Run
-        try
-        {
-            for (IInterceptor i : interceptors)
-                i.before(instance, calledMethod, args);
+        // Construct responsibility chain
+        InvocationContextChain chain = new InvocationContextChain(instance, calledMethod, args);
+        chain.buildResponsibilityChain(interceptors);
 
-            // Real method call
-            ret = method.invoke(instance, args);
-
-            for (IInterceptor i : interceptors)
-                i.after(instance, calledMethod, args);
-        }
-        catch (Exception e)
-        {
-            for (IInterceptor i : interceptors)
-                i.onError(instance, e, calledMethod, args);
-        }
-        
-        return ret;
+        // Run chain
+        return chain.execNextInterceptor();
     }
 
     public Object getInstance()

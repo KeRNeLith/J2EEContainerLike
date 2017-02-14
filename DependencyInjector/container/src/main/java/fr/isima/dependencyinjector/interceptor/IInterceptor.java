@@ -5,7 +5,7 @@
  */
 package fr.isima.dependencyinjector.interceptor;
 
-import java.lang.reflect.Method;
+import fr.isima.dependencyinjector.injector.handlers.InvocationContextChain;
 
 /**
  *
@@ -13,9 +13,5 @@ import java.lang.reflect.Method;
  */
 public interface IInterceptor 
 {
-    void before(Object instance, Method method, Object... parameters);
-    
-    void after(Object instance, Method method, Object... parameters);
-    
-    void onError(Object instance, Exception exception, Method method, Object... parameters) throws Exception;
+    Object invoke(InvocationContextChain invocation);
 }

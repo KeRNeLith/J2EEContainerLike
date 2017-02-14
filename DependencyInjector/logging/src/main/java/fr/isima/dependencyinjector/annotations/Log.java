@@ -5,7 +5,7 @@
  */
 package fr.isima.dependencyinjector.annotations;
 
-import fr.isima.dependencyinjector.logging.LogInterceptor;
+import fr.isima.dependencyinjector.interceptor.LogInterceptor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

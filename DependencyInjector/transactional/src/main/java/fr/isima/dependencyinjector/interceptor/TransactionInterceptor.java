@@ -3,14 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.isima.dependencyinjector.transaction;
+package fr.isima.dependencyinjector.interceptor;
 
 import fr.isima.dependencyinjector.annotations.Inject;
-import fr.isima.dependencyinjector.annotations.Transactional;
 import fr.isima.dependencyinjector.annotations.Transactional.TransactionType;
-import fr.isima.dependencyinjector.interceptor.IInterceptor;
+import fr.isima.dependencyinjector.injector.handlers.InvocationContextChain;
+import fr.isima.dependencyinjector.transaction.ITransaction;
 
-import java.lang.reflect.Method;
 import java.util.Stack;
 
 /**
@@ -30,7 +29,7 @@ public class TransactionInterceptor implements IInterceptor
         }
     };
 
-    @Override
+    /*@Override
     public void before(Object instance, Method method, Object... parameters) 
     {
         if (method.isAnnotationPresent(Transactional.class))
@@ -88,5 +87,10 @@ public class TransactionInterceptor implements IInterceptor
 
         if (exception != null)
             throw exception;
+    }*/
+
+    @Override
+    public Object invoke(InvocationContextChain invocation) {
+        return null;
     }
 }
