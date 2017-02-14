@@ -16,7 +16,9 @@ import fr.isima.dependencyinjector.injector.handlers.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.services.implems.ConcreteCascadeService;
 import fr.isima.dependencyinjector.services.implems.NormalServiceImplm;
 import fr.isima.dependencyinjector.services.implems.PreferredSuperService;
+import fr.isima.dependencyinjector.services.implems.SelfInjectedServiceImplm;
 import fr.isima.dependencyinjector.services.interfaces.ICascadeService;
+import fr.isima.dependencyinjector.services.interfaces.ISelfInjectService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,8 +36,8 @@ public class CascadeInjectionTest
     @Inject
     private ICascadeService service;
     
-    //@Inject
-    //private ISeftInjectService selfService;
+    @Inject
+    private ISelfInjectService selfService;
     
     @Before
     public void setUp() throws TooMuchPreferredClassFound, NoConcreteClassFound, TooMuchConcreteClassFound
@@ -84,18 +86,20 @@ public class CascadeInjectionTest
         ContainerInvocationHandler containerHandler3 = (ContainerInvocationHandler) handler3;
         assertTrue(containerHandler3.getInstance() instanceof PreferredSuperService);
     }
-    
-    // TODO test self inject 
-    /*@Test
-    public void injectionDependencySelfInject() 
+
+    @Test
+    public void injectionDependencySelfInject()
     {
         assertNotNull(selfService);
-        assertTrue(selfService instanceof SelfInjectedServiceImplm);
-        SelfInjectedServiceImplm sService = (SelfInjectedServiceImplm) selfService;
-        
-        assertNotNull(sService.service);
-        assertTrue(sService.service instanceof SelfInjectedServiceImplm);
+        assertTrue(Proxy.isProxyClass(selfService.getClass()));
 
         assertEquals("success", selfService.selfFoo());
-    }*/
+
+        // Check Implementation type behind proxy class
+        InvocationHandler handler1 = Proxy.getInvocationHandler(selfService);
+        assertTrue(handler1 instanceof ContainerInvocationHandler);
+        ContainerInvocationHandler containerHandler1 = (ContainerInvocationHandler) handler1;
+        assertTrue(containerHandler1.getInstance() instanceof SelfInjectedServiceImplm);
+        SelfInjectedServiceImplm sService = (SelfInjectedServiceImplm) containerHandler1.getInstance();
+    }
 }

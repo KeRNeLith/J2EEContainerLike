@@ -17,16 +17,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-// TODO list
-// @Inject
-// @Singleton
-// classloader il se debrouille et utilise le bon en regardant ce qui est dispo => gestion des erreurs
-// @Preferred
-// Cascade
-// @Log ajouter un log en début et fin d'exec d'une méthode annotée
-// @Transactional   -Required
-//                  -Require_new
-
 /**
  * Handle the mechanism of dependency injection.
  * @author kernelith
@@ -76,7 +66,7 @@ public final class EJBContainer
     }
     
     /**
-     * Handle mechanism of dependancy injection on the given object.
+     * Handle mechanism of dependency injection on the given object.
      * @param o Object that will have dependency injections.
      * @throws NoConcreteClassFound No concrete class found while trying to perform injection.
      * @throws TooMuchPreferredClassFound Too much prefered class found while trying to perform injection.

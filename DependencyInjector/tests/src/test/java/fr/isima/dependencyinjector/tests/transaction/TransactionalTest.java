@@ -19,7 +19,8 @@ import fr.isima.dependencyinjector.transaction.TransactionMock;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  *
@@ -193,14 +194,9 @@ public class TransactionalTest
 
         requireNewService.methodMixedSucceed();
 
-        /*assertEquals(1, TransactionMock.getNbBegins());
+        assertEquals(1, TransactionMock.getNbBegins());
         assertEquals(1, TransactionMock.getNbCommits());
-        assertEquals(0, TransactionMock.getNbRollbacks());*/
-        // TODO
-        System.out.println(TransactionMock.getNbBegins() + " " + TransactionMock.getNbCommits() + " " + TransactionMock.getNbRollbacks());
-        System.out.println("Fin");
-
-        fail("TODO");
+        assertEquals(0, TransactionMock.getNbRollbacks());
     }
 
     @Test(expected = Exception.class)
@@ -236,11 +232,8 @@ public class TransactionalTest
 
         requireNewService.methodMixedFailed();
 
-        // TODO
-        /*assertEquals(1, TransactionMock.getNbBegins());
+        assertEquals(1, TransactionMock.getNbBegins());
         assertEquals(0, TransactionMock.getNbCommits());
-        assertEquals(1, TransactionMock.getNbRollbacks());*/
-        System.out.println("Fin");
-        fail("TODO");
+        assertEquals(1, TransactionMock.getNbRollbacks());
     }
 }

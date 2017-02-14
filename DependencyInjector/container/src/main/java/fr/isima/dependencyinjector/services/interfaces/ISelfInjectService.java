@@ -9,7 +9,7 @@ package fr.isima.dependencyinjector.services.interfaces;
  *
  * @author kernelith
  */
-public interface ISeftInjectService 
+public interface ISelfInjectService
 {
     String selfFoo();
 }
