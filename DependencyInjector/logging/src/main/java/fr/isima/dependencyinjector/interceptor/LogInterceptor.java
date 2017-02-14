@@ -21,8 +21,14 @@ public class LogInterceptor implements IInterceptor
     @Override
     public Object invoke(InvocationContextChain invocation)
     {
+        // Log method call
         logger.add(invocation.getMethod().getName());
 
-        return invocation.execNextInterceptor();
+        // Continue responsibility chain
+        Object ret = invocation.execNextInterceptor();
+
+        logger.add(invocation.getMethod().getName());
+
+        return ret;
     }
 }

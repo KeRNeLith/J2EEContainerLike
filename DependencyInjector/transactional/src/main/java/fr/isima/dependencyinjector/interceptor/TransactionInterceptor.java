@@ -90,7 +90,25 @@ public class TransactionInterceptor implements IInterceptor
     }*/
 
     @Override
-    public Object invoke(InvocationContextChain invocation) {
-        return null;
+    public Object invoke(InvocationContextChain invocation)
+    {
+        Object ret = null;
+
+        transcation.begin();
+
+        try
+        {
+            ret = invocation.execNextInterceptor();
+            transcation.commit();
+        }
+        catch (Exception e)
+        {
+            transcation.rollback();
+
+            // Re-throw exception
+            throw e;
+        }
+
+        return ret;
     }
 }

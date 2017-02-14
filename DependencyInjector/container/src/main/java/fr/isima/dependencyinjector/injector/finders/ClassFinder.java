@@ -1,9 +1,9 @@
 package fr.isima.dependencyinjector.injector.finders;
 
 import fr.isima.dependencyinjector.annotations.Preferred;
-import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
+import fr.isima.dependencyinjector.exceptions.bootstrap.NoConcreteClassFound;
+import fr.isima.dependencyinjector.exceptions.bootstrap.TooMuchConcreteClassFound;
+import fr.isima.dependencyinjector.exceptions.bootstrap.TooMuchPreferredClassFound;
 import org.reflections.Reflections;
 
 import java.util.ArrayList;

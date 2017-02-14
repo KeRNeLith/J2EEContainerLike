@@ -43,21 +43,21 @@ public class ConcreteRequireTransactionalService implements IRequireTransactiona
 
     @Override
     @Transactional(type = REQUIRE)
-    public void methodFailed() throws Exception
+    public void methodFailed()
     {
         throw new RuntimeException("Impossible to finish execution of transactional method");
     }
 
     @Override
     @Transactional(type = REQUIRE)
-    public void methodImbricationFailed() throws Exception
+    public void methodImbricationFailed()
     {
         em.execSimpleFailedQuery();
     }
 
     @Override
     @Transactional(type = REQUIRE)
-    public void methodMixedFailed() throws Exception
+    public void methodMixedFailed()
     {
         em.execFailedQuery();
     }

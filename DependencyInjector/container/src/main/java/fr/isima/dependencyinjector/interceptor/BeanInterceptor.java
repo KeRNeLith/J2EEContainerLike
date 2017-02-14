@@ -1,5 +1,6 @@
 package fr.isima.dependencyinjector.interceptor;
 
+import fr.isima.dependencyinjector.exceptions.runtime.InvocationException;
 import fr.isima.dependencyinjector.injector.handlers.InvocationContextChain;
 
 import java.lang.reflect.Method;
@@ -12,17 +13,16 @@ public class BeanInterceptor implements IInterceptor
 	@Override
 	public Object invoke(InvocationContextChain invocation)
 	{
+		Method method = invocation.getMethod();
+
+		// Call method
 		try
 		{
-			Method method = invocation.getMethod();
-
-			// Call method
 			return method.invoke(invocation.getObject(), invocation.getArgs());
 		}
 		catch (Exception e)
 		{
-			// TODO
-			throw new RuntimeException();
+			throw new InvocationException(e.getMessage());
 		}
 	}
 }

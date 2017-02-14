@@ -5,11 +5,9 @@ package fr.isima.dependencyinjector.service.interfaces;
  */
 public interface IRequireNewTransactionalService
 {
-	void methodSimpleSucceed();
 	void methodSucceed();
 	void methodMixedSucceed();
 
-	void methodSimpleFailed() throws Exception;
-	void methodFailed() throws Exception;
-	void methodMixedFailed() throws Exception;
+	void methodFailed();
+	void methodMixedFailed();
 }
