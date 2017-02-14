@@ -6,11 +6,11 @@
 package fr.isima.dependencyinjector.interceptor;
 
 import fr.isima.dependencyinjector.annotations.Inject;
-import fr.isima.dependencyinjector.annotations.Transactional.TransactionType;
+import fr.isima.dependencyinjector.annotations.Transactional;
 import fr.isima.dependencyinjector.injector.handlers.InvocationContextChain;
-import fr.isima.dependencyinjector.transaction.ITransaction;
+import fr.isima.dependencyinjector.transaction.ITransactionManager;
 
-import java.util.Stack;
+import java.lang.reflect.Method;
 
 /**
  *
@@ -19,91 +19,25 @@ import java.util.Stack;
 public class TransactionInterceptor implements IInterceptor
 {
     @Inject
-    private ITransaction transcation;
-
-    private static ThreadLocal<Stack<TransactionType>> callStackTransactions = new ThreadLocal<Stack<TransactionType>>() {
-        @Override
-        protected Stack<TransactionType> initialValue()
-        {
-            return new Stack<>();
-        }
-    };
-
-    /*@Override
-    public void before(Object instance, Method method, Object... parameters) 
-    {
-        if (method.isAnnotationPresent(Transactional.class))
-        {
-            Transactional transactionAnnotation = method.getAnnotation(Transactional.class);
-
-            Stack<TransactionType> stackTransactions = callStackTransactions.get();
-            // There is already transactions currently running => Determine if we need to open a new one
-            if (!stackTransactions.empty())
-            {
-                // Only open a new transaction when there is a require new
-                if (transactionAnnotation.type() == TransactionType.REQUIRE_NEW)
-                {
-                    transcation.begin();
-                }
-            }
-            // No transaction open => open one
-            else
-            {
-                transcation.begin();
-            }
-
-            callStackTransactions.get().push(transactionAnnotation.type());
-        }
-    }
-
-    @Override
-    public void after(Object instance, Method method, Object... parameters) 
-    {
-        // End transaction
-        if (method.isAnnotationPresent(Transactional.class))
-        {
-            Stack<TransactionType> stackTransactions = callStackTransactions.get();
-            TransactionType curTransactionType = stackTransactions.peek();
-            stackTransactions.pop();
-
-            // End of require new transaction or end of REQUIRE transaction (No other REQUIRE running) => commit it
-            if (curTransactionType == TransactionType.REQUIRE_NEW
-                || (curTransactionType == TransactionType.REQUIRE && stackTransactions.search(TransactionType.REQUIRE) == -1))
-            {
-                transcation.commit();
-            }
-        }
-    }
-    
-    @Override
-    public void onError(Object instance, Exception exception, Method method, Object... parameters) throws Exception
-    {
-        // Error during transaction
-        if (method.isAnnotationPresent(Transactional.class))
-        {
-            callStackTransactions.get().pop();
-            transcation.rollback();
-        }
-
-        if (exception != null)
-            throw exception;
-    }*/
+    private ITransactionManager transactionManager;
 
     @Override
     public Object invoke(InvocationContextChain invocation)
     {
         Object ret = null;
 
-        transcation.begin();
+        Method method = invocation.getMethod();
+        Transactional transactionalAnnotation = method.getAnnotation(Transactional.class);
 
+        transactionManager.beginTransactionIfNecessary(transactionalAnnotation.type());
         try
         {
             ret = invocation.execNextInterceptor();
-            transcation.commit();
+            transactionManager.commitTransactionAfterProceed();
         }
         catch (Exception e)
         {
-            transcation.rollback();
+            transactionManager.rollbackTransactionAfterThrowing();
 
             // Re-throw exception
             throw e;
