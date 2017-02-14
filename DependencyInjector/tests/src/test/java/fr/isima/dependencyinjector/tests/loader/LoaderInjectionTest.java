@@ -11,8 +11,8 @@ import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
-import fr.isima.dependencyinjector.injector.handlers.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.injector.EJBContainer;
+import fr.isima.dependencyinjector.injector.handlers.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.services.implems.NormalServiceImplm;
 import fr.isima.dependencyinjector.services.interfaces.INormalService;
 import org.junit.Before;
@@ -46,12 +46,12 @@ public class LoaderInjectionTest
         assertNotNull(normalService);
         assertTrue(Proxy.isProxyClass(normalService.getClass()));
 
+        assertEquals("success", normalService.normalFoo());
+
         // Check Implementation type behind proxy class
         InvocationHandler handler = Proxy.getInvocationHandler(normalService);
         assertTrue(handler instanceof ContainerInvocationHandler);
         ContainerInvocationHandler containerHandler = (ContainerInvocationHandler) handler;
-        assertTrue(containerHandler.getObject() instanceof NormalServiceImplm);
-
-        assertEquals("success", normalService.normalFoo());
+        assertTrue(containerHandler.getInstance() instanceof NormalServiceImplm);
     }
 }

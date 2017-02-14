@@ -12,9 +12,14 @@ import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.EJBContainer;
+import fr.isima.dependencyinjector.injector.handlers.ContainerInvocationHandler;
+import fr.isima.dependencyinjector.services.implems.ServiceImplm;
 import fr.isima.dependencyinjector.services.interfaces.IService;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 
 import static org.junit.Assert.*;
 
@@ -42,10 +47,25 @@ public class InjectionSingletonTest
     {
         assertNotNull(service);
         assertNotNull(otherService);
-        
+        assertTrue(Proxy.isProxyClass(service.getClass()));
+        assertTrue(Proxy.isProxyClass(otherService.getClass()));
+
         assertEquals("success", service.foo());
         assertEquals("success", otherService.foo());
-        
-        assertSame(service, otherService);
+
+        // Check Implementation type behind proxies class
+        InvocationHandler handler1 = Proxy.getInvocationHandler(service);
+        assertTrue(handler1 instanceof ContainerInvocationHandler);
+        ContainerInvocationHandler containerHandler1 = (ContainerInvocationHandler) handler1;
+        assertTrue(containerHandler1.getInstance() instanceof ServiceImplm);
+        ServiceImplm serviceImplm1 = (ServiceImplm) containerHandler1.getInstance();
+
+        InvocationHandler handler2 = Proxy.getInvocationHandler(service);
+        assertTrue(handler2 instanceof ContainerInvocationHandler);
+        ContainerInvocationHandler containerHandler2 = (ContainerInvocationHandler) handler2;
+        assertTrue(containerHandler2.getInstance() instanceof ServiceImplm);
+        ServiceImplm serviceImplm2 = (ServiceImplm) containerHandler2.getInstance();
+
+        assertSame(serviceImplm1, serviceImplm2);
     }
 }

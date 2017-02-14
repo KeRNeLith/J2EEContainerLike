@@ -11,8 +11,8 @@ import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
-import fr.isima.dependencyinjector.injector.handlers.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.injector.EJBContainer;
+import fr.isima.dependencyinjector.injector.handlers.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.services.implems.ConcreteCascadeService;
 import fr.isima.dependencyinjector.services.implems.NormalServiceImplm;
 import fr.isima.dependencyinjector.services.implems.PreferredSuperService;
@@ -51,13 +51,16 @@ public class CascadeInjectionTest
         assertNotNull(service);
         assertTrue(Proxy.isProxyClass(service.getClass()));
 
+        // Work for n + 1 and n + 2 => so work for every n
+        assertEquals("success success success", service.cascadeFoo());
+
         // Check Implementation type behind proxy class
         InvocationHandler handler = Proxy.getInvocationHandler(service);
         assertTrue(handler instanceof ContainerInvocationHandler);
         ContainerInvocationHandler containerHandler = (ContainerInvocationHandler) handler;
-        assertTrue(containerHandler.getObject() instanceof ConcreteCascadeService);
+        assertTrue(containerHandler.getInstance() instanceof ConcreteCascadeService);
 
-        ConcreteCascadeService cascadeService = (ConcreteCascadeService) containerHandler.getObject();
+        ConcreteCascadeService cascadeService = (ConcreteCascadeService) containerHandler.getInstance();
         
         // Recurse level 1
         assertNotNull(cascadeService.normalService);
@@ -67,9 +70,9 @@ public class CascadeInjectionTest
         InvocationHandler handler2 = Proxy.getInvocationHandler(cascadeService.normalService);
         assertTrue(handler2 instanceof ContainerInvocationHandler);
         ContainerInvocationHandler containerHandler2 = (ContainerInvocationHandler) handler2;
-        assertTrue(containerHandler2.getObject() instanceof NormalServiceImplm);
+        assertTrue(containerHandler2.getInstance() instanceof NormalServiceImplm);
 
-        NormalServiceImplm normalService = (NormalServiceImplm) containerHandler2.getObject();
+        NormalServiceImplm normalService = (NormalServiceImplm) containerHandler2.getInstance();
         
         // Recurse level 2
         assertNotNull(normalService.superService);
@@ -79,11 +82,7 @@ public class CascadeInjectionTest
         InvocationHandler handler3 = Proxy.getInvocationHandler(normalService.superService);
         assertTrue(handler3 instanceof ContainerInvocationHandler);
         ContainerInvocationHandler containerHandler3 = (ContainerInvocationHandler) handler3;
-        assertTrue(containerHandler3.getObject() instanceof PreferredSuperService);
-        
-        // Work for n + 1 and n + 2 => so work for every n
-        
-        assertEquals("success success success", service.cascadeFoo());
+        assertTrue(containerHandler3.getInstance() instanceof PreferredSuperService);
     }
     
     // TODO test self inject 

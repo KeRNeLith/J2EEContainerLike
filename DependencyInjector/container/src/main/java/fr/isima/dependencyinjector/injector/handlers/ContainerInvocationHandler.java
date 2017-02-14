@@ -5,20 +5,15 @@
  */
 package fr.isima.dependencyinjector.injector.handlers;
 
-import fr.isima.dependencyinjector.annotations.Behaviour;
-import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
-import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
-import fr.isima.dependencyinjector.injector.EJBContainer;
+import fr.isima.dependencyinjector.injector.factories.ContainerObjectFactory;
+import fr.isima.dependencyinjector.injector.finders.BehaviourFinder;
+import fr.isima.dependencyinjector.injector.finders.ClassFinder;
 import fr.isima.dependencyinjector.interceptor.IInterceptor;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -26,11 +21,11 @@ import java.util.logging.Logger;
  */
 public class ContainerInvocationHandler implements InvocationHandler
 {
-    private Object m_object;
+    private Object instance;
 
-    ContainerInvocationHandler()
+    public ContainerInvocationHandler()
     {
-        m_object = null;
+        instance = null;
     }
 
     @Override
@@ -38,84 +33,53 @@ public class ContainerInvocationHandler implements InvocationHandler
     {
         Object ret = null;
 
-        // Get method interceptors
-        Class objectClass = m_object.getClass();
-        // Get corresponding method called in real object
-        Method calledMethod = objectClass.getMethod(method.getName(), method.getParameterTypes());
+        // Check if object is already injected or not
+        if (instance == null)
+        {
+            Class interfaceClass = method.getDeclaringClass();
+            Class concreteClass = ClassFinder.findClassFor(interfaceClass);
 
-        List<IInterceptor> interceptors = getMethodInterceptors(calledMethod);
+            // Lazy injection
+            instance = ContainerObjectFactory.createNewInstanceFor(concreteClass);
+        }
+
+        // Get corresponding method called in real object
+        Class instanceClass = instance.getClass();
+        Method calledMethod = instanceClass.getMethod(method.getName(), method.getParameterTypes());
+
+        // Get method interceptors class and instantiate them
+        List<Class> interceptorsClasses = BehaviourFinder.getInterceptorsFor(calledMethod);
+        List<IInterceptor> interceptors = new ArrayList<>();
+
+        // Instantiate interceptors
+        for (Class interceptorClass : interceptorsClasses)
+        {
+            interceptors.add((IInterceptor) ContainerObjectFactory.createNewInstanceFor(interceptorClass));
+        }
+
+        // Run
         try
         {
             for (IInterceptor i : interceptors)
-                i.before(proxy, calledMethod, args);
+                i.before(instance, calledMethod, args);
 
             // Real method call
-            ret = method.invoke(m_object, args);
+            ret = method.invoke(instance, args);
 
             for (IInterceptor i : interceptors)
-                i.after(proxy, calledMethod, args);
+                i.after(instance, calledMethod, args);
         }
         catch (Exception e)
         {
             for (IInterceptor i : interceptors)
-                i.onError(proxy, e, calledMethod, args);
+                i.onError(instance, e, calledMethod, args);
         }
         
         return ret;
     }
 
-    private List<IInterceptor> getMethodInterceptors(Method method)
+    public Object getInstance()
     {
-        List<IInterceptor> interceptors = new ArrayList<>();
-        for (Annotation annotation : method.getAnnotations())
-        {
-            // Check annotations of current annotation => search a behaviour annotation
-            Class<? extends Annotation> annotationType = annotation.annotationType();
-            if (annotationType.isAnnotationPresent(Behaviour.class))
-            {
-                Behaviour behaviourAnnotation = annotationType.getAnnotation(Behaviour.class);
-                Class<? extends IInterceptor> interceptorClass = behaviourAnnotation.interceptor();
-
-                try
-                {
-                    IInterceptor interceptor = interceptorClass.newInstance();
-                    try
-                    {
-                        EJBContainer.getInjector().inject(interceptor);
-                        interceptors.add(interceptor);
-                    }
-                    catch ( TooMuchPreferredClassFound
-                            | TooMuchConcreteClassFound e)
-                    {
-                        // Problem impossible to inject interceptors dependencies
-                        Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
-                                                                            "Container could not determine type while performing injection for " + interceptor.getClass().getName(),
-                                                                            e);
-                    }
-                    catch (NoConcreteClassFound e)
-                    {
-                        // Problem impossible to inject interceptors dependencies
-                        Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
-                                                                            "Container could not find type to use while performing injection for " + interceptorClass.getName(),
-                                                                            e);
-                    }
-
-                }
-                catch (InstantiationException | IllegalAccessException e)
-                {
-                    // Problem impossible to instantiate interceptors
-                    Logger.getLogger(EJBContainer.class.getName()).log( Level.SEVERE,
-                                                                        "Impossible to instantiate interceptor of type " + interceptorClass.getName(),
-                                                                        e);
-                }
-            }
-        }
-
-        return interceptors;
-    }
-
-    public Object getObject()
-    {
-        return m_object;
+        return instance;
     }
 }

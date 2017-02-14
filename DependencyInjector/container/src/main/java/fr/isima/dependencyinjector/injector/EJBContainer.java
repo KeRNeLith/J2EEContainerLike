@@ -12,7 +12,8 @@ import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.factories.ContainerProxyFactory;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

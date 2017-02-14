@@ -11,8 +11,8 @@ import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.exceptions.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.TooMuchPreferredClassFound;
-import fr.isima.dependencyinjector.injector.handlers.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.injector.EJBContainer;
+import fr.isima.dependencyinjector.injector.handlers.ContainerInvocationHandler;
 import fr.isima.dependencyinjector.services.implems.PreferredSuperService;
 import fr.isima.dependencyinjector.services.interfaces.ISuperService;
 import org.junit.Before;
@@ -46,12 +46,12 @@ public class PreferredInjectionTest
         assertNotNull(service);
         assertTrue(Proxy.isProxyClass(service.getClass()));
 
+        assertEquals("success", service.superFoo());
+
         // Check Implementation type behind proxy class
         InvocationHandler handler = Proxy.getInvocationHandler(service);
         assertTrue(handler instanceof ContainerInvocationHandler);
         ContainerInvocationHandler containerHandler = (ContainerInvocationHandler) handler;
-        assertTrue(containerHandler.getObject() instanceof PreferredSuperService);
-
-        assertEquals("success", service.superFoo());
+        assertTrue(containerHandler.getInstance() instanceof PreferredSuperService);
     }
 }
