@@ -1,14 +1,11 @@
 package fr.isima.dependencyinjector.injector.finders;
 
-import fr.isima.dependencyinjector.annotations.Preferred;
 import fr.isima.dependencyinjector.exceptions.bootstrap.NoConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.bootstrap.TooMuchConcreteClassFound;
 import fr.isima.dependencyinjector.exceptions.bootstrap.TooMuchPreferredClassFound;
 import org.reflections.Reflections;
 
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -37,53 +34,49 @@ public class ClassFinder
 
 		if (inputClass.isInterface())
 		{
-			Set<?> subTypes = reflectionHelper.getSubTypesOf(inputClass);
+			outputClass = PreferredFinder.getPreferredFor(inputClass);
 
-			// No Implementations found
-			if (subTypes.size() <= 0)
+			// No preferred class found
+			if (outputClass == null)
 			{
-				throw new NoConcreteClassFound();
-			}
-			// More than one possibility
-			else if (subTypes.size() > 1)
-			{
-				List<Class> preferredClass = new ArrayList<>();
-				for (Object subType : subTypes)
-				{
-					Class curClass = (Class) subType;
-					if (curClass.isAnnotationPresent(Preferred.class))
-					{
-						preferredClass.add(curClass);
-					}
-				}
-
-				// More than one preferred class
-				if (preferredClass.size() > 1)
-				{
-					throw new TooMuchPreferredClassFound();
-				}
-				// One preferred class
-				else if (preferredClass.size() == 1)
-				{
-					outputClass = preferredClass.get(0);
-				}
-				// No Preferred class but too much class found
-				else
-				{
-					throw new TooMuchConcreteClassFound();
-				}
-			}
-			// Only one implementation found
-			else
-			{
-				Iterator it = subTypes.iterator();
-				outputClass = (Class) it.next();
+				outputClass = findConcreteClassFor(inputClass);
 			}
 		}
 		// Already a concrete implementation
 		else
 		{
 			outputClass = inputClass;
+		}
+
+		return outputClass;
+	}
+
+	/**
+	 * Get concrete class matching input class.
+	 * @param inputClass Input class.
+	 * @return Concrete class corresponding to input class.
+	 */
+	private static Class<?> findConcreteClassFor(Class<?> inputClass) throws NoConcreteClassFound, TooMuchConcreteClassFound
+	{
+		Class<?> outputClass = null;
+
+		Set<Class<?>> subTypes = (Set<Class<?>>) reflectionHelper.getSubTypesOf(inputClass);
+
+		// No Implementations found
+		if (subTypes.isEmpty())
+		{
+			throw new NoConcreteClassFound();
+		}
+		// More than one possibility
+		else if (subTypes.size() > 1)
+		{
+			throw new TooMuchConcreteClassFound();
+		}
+		// Only one implementation found
+		else
+		{
+			Iterator it = subTypes.iterator();
+			outputClass = (Class) it.next();
 		}
 
 		return outputClass;
