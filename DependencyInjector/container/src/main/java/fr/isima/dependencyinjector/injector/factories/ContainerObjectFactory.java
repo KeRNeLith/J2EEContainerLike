@@ -18,7 +18,7 @@ public class ContainerObjectFactory
 	 */
 	public static Object createNewInstanceFor(Class targetClass) throws TooMuchPreferredClassFound, TooMuchConcreteClassFound, NoConcreteClassFound, IllegalAccessException, InstantiationException
 	{
-		Object instance = null;
+		Object instance;
 
 		// Delegate Singleton handling
 		if (targetClass.isAnnotationPresent(Singleton.class))

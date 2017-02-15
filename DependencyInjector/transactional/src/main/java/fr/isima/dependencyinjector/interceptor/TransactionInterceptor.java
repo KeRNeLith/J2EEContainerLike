@@ -32,7 +32,7 @@ public class TransactionInterceptor implements IInterceptor
     @Override
     public Object invoke(InvocationContextChain invocation)
     {
-        Object ret = null;
+        Object ret;
 
         Method method = invocation.getMethod();
         Transactional transactionalAnnotation = method.getAnnotation(Transactional.class);

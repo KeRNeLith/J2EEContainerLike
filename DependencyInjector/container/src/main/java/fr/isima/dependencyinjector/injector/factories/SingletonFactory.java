@@ -15,7 +15,7 @@ public class SingletonFactory
 	/**
 	 * Map of all singleton instances instantiated.
 	 */
-	private static HashMap<Class, Object> singletonsInstances;
+	private final static HashMap<Class, Object> singletonsInstances;
 
 	static
 	{
@@ -29,7 +29,7 @@ public class SingletonFactory
 	 */
 	public static Object getInstanceFor(Class targetClass) throws IllegalAccessException, InstantiationException, TooMuchPreferredClassFound, TooMuchConcreteClassFound, NoConcreteClassFound
 	{
-		Object instance = null;
+		Object instance;
 
 		if (!singletonsInstances.containsKey(targetClass))
 		{

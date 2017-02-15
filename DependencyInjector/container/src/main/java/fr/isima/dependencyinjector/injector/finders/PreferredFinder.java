@@ -16,7 +16,7 @@ public class PreferredFinder
     /**
      * Tool to use reflection.
      */
-    private static Reflections reflectionHelper;
+    private final static Reflections reflectionHelper;
 
     static
     {

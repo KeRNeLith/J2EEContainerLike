@@ -35,7 +35,7 @@ public class HardCodedInjectionTest
     @Before
     public void setUp() throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
     {
-        // Enregistre les correspondances
+        // Register correspondences
         EJBContainer.getInjector().registerType(IService.class, ServiceImplm.class);
         
         // Injection

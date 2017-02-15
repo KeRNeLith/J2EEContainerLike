@@ -18,12 +18,12 @@ public class ClassFinder
 	/**
 	 * Tool to use reflection.
 	 */
-	private static Reflections reflectionHelper;
+	private final static Reflections reflectionHelper;
 
 	/**
 	 * Cache map of already treated classes.
 	 */
-	private static Map<Class, Class> cacheClassAssociations;
+	private final static Map<Class, Class> cacheClassAssociations;
 
 	static
 	{
@@ -39,7 +39,7 @@ public class ClassFinder
 	 */
 	public static Class<?> findClassFor(Class<?> inputClass) throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
 	{
-		Class<?> outputClass = null;
+		Class<?> outputClass;
 
 		// Class already cached
 		if (cacheClassAssociations.containsKey(inputClass))
@@ -62,7 +62,7 @@ public class ClassFinder
 	 */
 	private static Class<?> findClass(Class<?> inputClass) throws TooMuchPreferredClassFound, TooMuchConcreteClassFound, NoConcreteClassFound
 	{
-		Class<?> outputClass = null;
+		Class<?> outputClass;
 
 		if (inputClass.isInterface())
 		{
@@ -90,7 +90,7 @@ public class ClassFinder
 	 */
 	private static Class<?> findConcreteClassFor(Class<?> inputClass) throws NoConcreteClassFound, TooMuchConcreteClassFound
 	{
-		Class<?> outputClass = null;
+		Class<?> outputClass;
 
 		Set<Class<?>> subTypes = (Set<Class<?>>) reflectionHelper.getSubTypesOf(inputClass);
 

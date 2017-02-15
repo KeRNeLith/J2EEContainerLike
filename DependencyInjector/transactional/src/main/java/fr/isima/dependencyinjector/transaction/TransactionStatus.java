@@ -8,7 +8,7 @@ public class TransactionStatus
 	/**
 	 * Indicate if the transaction is a new transaction of not.
 	 */
-	private boolean isNewTransaction;
+	private final boolean isNewTransaction;
 
 	/**
 	 * Create a transaction status set to new transaction by default.

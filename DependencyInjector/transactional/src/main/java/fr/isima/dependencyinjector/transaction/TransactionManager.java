@@ -14,19 +14,13 @@ public class TransactionManager implements ITransactionManager
 	 * Transaction handler (Handle begin, commit and rollback operations).
 	 */
 	@Inject
-	private ITransaction transcation;
+	private ITransaction transaction;
 
 	/**
 	 * Call stack of transactions.
 	 * Store all transaction made by their status.
 	 */
-	private static ThreadLocal<Stack<TransactionStatus>> callStackTransactions = new ThreadLocal<Stack<TransactionStatus>>() {
-		@Override
-		protected Stack<TransactionStatus> initialValue()
-		{
-			return new Stack<>();
-		}
-	};
+	private final static ThreadLocal<Stack<TransactionStatus>> callStackTransactions = ThreadLocal.withInitial(Stack::new);
 
 	/**
 	 * Check if there are running transactions.
@@ -67,7 +61,7 @@ public class TransactionManager implements ITransactionManager
 	{
 		if (!hasTransactionRunning() || type == TransactionType.REQUIRE_NEW)
 		{
-			transcation.begin();
+			transaction.begin();
 			pushTransaction(true);
 		}
 		else
@@ -81,7 +75,7 @@ public class TransactionManager implements ITransactionManager
 	{
 		if (popTransaction())
 		{
-			transcation.commit();
+			transaction.commit();
 		}
 	}
 
@@ -90,7 +84,7 @@ public class TransactionManager implements ITransactionManager
 	{
 		if (popTransaction())
 		{
-			transcation.rollback();
+			transaction.rollback();
 		}
 	}
 }
