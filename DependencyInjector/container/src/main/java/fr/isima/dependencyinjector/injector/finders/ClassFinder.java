@@ -5,7 +5,9 @@ import fr.isima.dependencyinjector.exceptions.bootstrap.TooMuchConcreteClassFoun
 import fr.isima.dependencyinjector.exceptions.bootstrap.TooMuchPreferredClassFound;
 import org.reflections.Reflections;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,9 +20,16 @@ public class ClassFinder
 	 */
 	private static Reflections reflectionHelper;
 
+	/**
+	 * Cache map of already treated classes.
+	 */
+	private static Map<Class, Class> cacheClassAssociations;
+
 	static
 	{
-		reflectionHelper = new Reflections("fr.isima");
+		reflectionHelper = new Reflections();
+
+		cacheClassAssociations = new HashMap<>();
 	}
 
 	/**
@@ -29,6 +38,29 @@ public class ClassFinder
 	 * @return Class that resolve input class.
 	 */
 	public static Class<?> findClassFor(Class<?> inputClass) throws NoConcreteClassFound, TooMuchPreferredClassFound, TooMuchConcreteClassFound
+	{
+		Class<?> outputClass = null;
+
+		// Class already cached
+		if (cacheClassAssociations.containsKey(inputClass))
+		{
+			outputClass = cacheClassAssociations.get(inputClass);
+		}
+		else
+		{
+			outputClass = findClass(inputClass);
+			cacheClassAssociations.put(inputClass, outputClass);
+		}
+
+		return outputClass;
+	}
+
+	/**
+	 * Find the corresponding class matching input class.
+	 * @param inputClass Input class.
+	 * @return Corresponding class.
+	 */
+	private static Class<?> findClass(Class<?> inputClass) throws TooMuchPreferredClassFound, TooMuchConcreteClassFound, NoConcreteClassFound
 	{
 		Class<?> outputClass = null;
 

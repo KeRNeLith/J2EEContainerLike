@@ -65,7 +65,7 @@ public class InvocationContextChain
 
 	/**
 	 * Execute next step of responsibility chain.
-	 * @return
+	 * @return Next interceptor result.
 	 */
 	public Object execNextInterceptor()
 	{

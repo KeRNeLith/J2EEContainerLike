@@ -20,7 +20,7 @@ public class PreferredFinder
 
     static
     {
-        reflectionHelper = new Reflections("fr.isima");
+        reflectionHelper = new Reflections();
     }
 
     /**
