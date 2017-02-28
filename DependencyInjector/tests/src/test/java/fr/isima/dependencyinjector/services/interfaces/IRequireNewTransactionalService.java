@@ -1,4 +1,4 @@
-package fr.isima.dependencyinjector.service.interfaces;
+package fr.isima.dependencyinjector.services.interfaces;
 
 /**
  * Created by kernelith on 07/02/17.

@@ -1,9 +1,9 @@
-package fr.isima.dependencyinjector.service.implems;
+package fr.isima.dependencyinjector.services.implems;
 
 import fr.isima.dependencyinjector.annotations.Inject;
 import fr.isima.dependencyinjector.annotations.Transactional;
-import fr.isima.dependencyinjector.entitymanager.IEntityManager;
-import fr.isima.dependencyinjector.service.interfaces.IRequireNewTransactionalService;
+import fr.isima.dependencyinjector.services.entitymanager.IEntityManager;
+import fr.isima.dependencyinjector.services.interfaces.IRequireNewTransactionalService;
 
 import static fr.isima.dependencyinjector.annotations.Transactional.TransactionType.REQUIRE_NEW;
 

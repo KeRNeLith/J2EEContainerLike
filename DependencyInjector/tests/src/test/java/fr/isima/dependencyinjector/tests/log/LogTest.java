@@ -13,7 +13,7 @@ import fr.isima.dependencyinjector.exceptions.bootstrap.TooMuchConcreteClassFoun
 import fr.isima.dependencyinjector.exceptions.bootstrap.TooMuchPreferredClassFound;
 import fr.isima.dependencyinjector.injector.EJBContainer;
 import fr.isima.dependencyinjector.logging.ILogger;
-import fr.isima.dependencyinjector.service.interfaces.ILoggedService;
+import fr.isima.dependencyinjector.services.interfaces.ILoggedService;
 import org.junit.Before;
 import org.junit.Test;
 
